@@ -55,6 +55,69 @@ VALUES('D12', 1);
 INSERT INTO box(name, brand_id)
 VALUES('X12', 1);
 
+INSERT INTO box(name, brand_id)
+VALUES('B', 2);
+
+INSERT INTO box(name, brand_id)
+VALUES('B12', 2);
+
+INSERT INTO box(name, brand_id)
+VALUES('L12', 2);
+
+INSERT INTO box(name, brand_id)
+VALUES('A', 3);
+
+INSERT INTO box(name, brand_id)
+VALUES('B', 3);
+
+INSERT INTO box(name, brand_id)
+VALUES('A12', 3);
+
+INSERT INTO box(name, brand_id)
+VALUES('B12', 3);
+
+INSERT INTO box(name, brand_id)
+VALUES('C12', 3);
+
+INSERT INTO box(name, brand_id)
+VALUES('G12', 3);
+
+INSERT INTO box(name, brand_id)
+VALUES('A12', 4);
+
+INSERT INTO box(name, brand_id)
+VALUES('B12', 4);
+
+INSERT INTO box(name, brand_id)
+VALUES('C12', 4);
+
+INSERT INTO box(name, brand_id)
+VALUES('A', 4);
+
+INSERT INTO box(name, brand_id)
+VALUES('B', 4);
+
+INSERT INTO box(name, brand_id)
+VALUES('C', 4);
+
+INSERT INTO box(name, brand_id)
+VALUES('A12', 5);
+
+INSERT INTO box(name, brand_id)
+VALUES('B12', 5);
+
+INSERT INTO box(name, brand_id)
+VALUES('C12', 5);
+
+INSERT INTO box(name, brand_id)
+VALUES('NC1', 5);
+
+INSERT INTO box(name, brand_id)
+VALUES('B', 5);
+
+INSERT INTO box(name, brand_id)
+VALUES('C', 5);
+
 
 -- box_content
 INSERT INTO box_content(box_id, size, quantity)
