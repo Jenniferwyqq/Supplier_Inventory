@@ -21,6 +21,8 @@ create table employ(
     email VARCHAR(50),
     address VARCHAR(50),
     zip INT,
+	user_name VARCHAR(15),
+    user_pass VARCHAR(15),
     PRIMARY KEY ( id )
 );
 
@@ -34,13 +36,11 @@ create table box(
    FOREIGN KEY (brand_id) REFERENCES brand(id)
 );
 
--- Name: Box_content
--- Purpose: Describe attributes of a Box content, includes what is the quantity of each size in the box.
 create table box_content(
    box_id INT,
    size FLOAT(3,1),
    quantity	INT,
-   PRIMARY KEY ( box_id ),
+   PRIMARY KEY ( box_id, size ),
    FOREIGN KEY (box_id) REFERENCES box(id)
 );
 
@@ -228,9 +228,10 @@ create table shoe_section(
 -- Purpose: Describe attributes of a shoe photo. Include which shoe , photo and image name.
 create table photo(
 	shoe_id INT,
-	ImageName varChar(50), 
+    image_id INT,
+	imageName varChar(50), 
     varBinaryData BLOB,
-	PRIMARY KEY ( shoe_id ),
+	PRIMARY KEY ( shoe_id, image_id ),
 	FOREIGN KEY (shoe_id) REFERENCES shoe(id)
 );
 
