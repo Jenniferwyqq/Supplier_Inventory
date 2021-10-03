@@ -1337,6 +1337,496 @@ VALUES('NOLA', 'BLACK', 'PU');
 INSERT INTO shoe(name, color, material)
 VALUES('NOLA', 'RED LAMI', 'NA');
 
+INSERT INTO shoe(name, color, material)
+VALUES('AGE', 'BLACK', 'ISU/PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('AGE', 'TAUPE', 'ISU/PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('AGENDA', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ARAN', 'MGREY', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ARAN', 'BURGANDY', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ARAN', 'BLACK', 'NB(DISPU)');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ARAN', 'LT-TAUPE(DK-NAT)', 'FLK');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ARAN', 'WH/BK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('AWESOME', 'BLACK', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('BREEZE', 'BLACK', 'FAB');
+
+INSERT INTO shoe(name, color, material)
+VALUES('BRIEFLY', 'BLACK', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('BRIEFLY', 'DK-TAN', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('BRYCE', 'BLACK', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CASHIER', 'B-TAN', 'ISU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CHALET', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CHALET', 'WHITE', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CHANCE', 'BLACK', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CHANCE', 'COGNAC', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CHANCE', 'GREY', 'NB');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CHANCE', 'LBRN', 'DISPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CHIVAS', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CHIVAS', 'TAN', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CHIVAS', 'WHITE', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CINDY', 'C-BLUE', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CLIP', 'TAN', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CLIP', 'WHITE', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CLIP', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CLIP', 'CAMO KHAKI', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CLIP', 'NAT PYTHON', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CODE', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('COEN', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('COEN', 'NAVY', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CROFT', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('CROFT', 'CLAY', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('DOME-SA', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('DALLES', 'TAN', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('DENNIS', 'SLV GLT', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('DIANA', 'BLACK', 'ISU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('DIANA', 'CAMO L-KHA', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('DIANA', 'LEO L-TAN', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('DIANA', 'L-TAUPE', 'ISU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ELECT', 'WHITE', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ELECT', 'BLACK', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ELECT', 'CLAY', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ELECT', 'L-TAUPE', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('GLOVE', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('GLOVE', 'BROWN', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('GLOVE', 'WH/BK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('GRUNGE', 'WHITE', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('HIKE', 'BLACK', 'CROCODILE');
+
+INSERT INTO shoe(name, color, material)
+VALUES('HIKE', 'BLACK', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('HIKE', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('HIKE', 'BLACK', 'CROBA');
+
+INSERT INTO shoe(name, color, material)
+VALUES('HIKE', 'FLOWER WHITE', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('HIKE', 'LT-KHAKI CAMO', 'N/A ');
+
+INSERT INTO shoe(name, color, material)
+VALUES('HIKE', 'MAUVE', 'COBRA');
+
+INSERT INTO shoe(name, color, material)
+VALUES('HIKE', 'OAT CHEET', 'N/A ');
+
+INSERT INTO shoe(name, color, material)
+VALUES('HIKE', 'TAN/BK', 'PLAID');
+
+INSERT INTO shoe(name, color, material)
+VALUES('HIKE', 'WHITE', 'CROCODILE');
+
+INSERT INTO shoe(name, color, material)
+VALUES('INDIANA', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('INVEST', 'BLACK', 'ISU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('INVEST', 'LT-TAN', 'ISU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('INVEST', 'SMK-TAUPE', 'ISU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('INVEST', 'VINO', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('JABER', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('JACK', 'BLACK', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('JACK', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('JACK', 'DK-BGE', 'PAT');
+
+INSERT INTO shoe(name, color, material)
+VALUES('JACK', 'NAVY', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('KAILI', 'BLACK', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('KAILI', 'NAT', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('KORMAN', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('MARIA', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('MARIA', 'BROWN', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('MARIA', 'TAN', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('MARIA', 'WH/BK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('MERIT', 'DK-BLUE', 'DENIM');
+
+INSERT INTO shoe(name, color, material)
+VALUES('MERIT', 'N-LTP', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('MUG', 'BLACK', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('MUG', 'CHAR', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('MUG', 'COGNAC', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('MUG', 'L-WEA', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ORALEE', 'BROWN', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ORALEE-25(KF)', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ORIGAMI', 'BROWN', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ORIGAMI', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('OUTING', 'BLACK', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('OUTING', 'D-TAN', 'ISU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('OXLEY', 'BLACK', 'FAB');
+
+INSERT INTO shoe(name, color, material)
+VALUES('PARASOL', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('PARASOL', 'WHILTE', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('PLENTY', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('PLENTY', 'LT-TAN', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('PLENTY', 'WHILTE', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('POPPIN', 'BLACK', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('POPPIN', 'CAMEL', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('QUINCE', 'BLACK', 'NB');
+
+INSERT INTO shoe(name, color, material)
+VALUES('REIGN', 'L-GREY', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('REIGN', 'ALL BLACK', 'ISU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('REIGN', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('REIGN', 'WH/BK', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('REIGN', 'LT-KHAKI CAMO', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('REIGN', 'OAT CHEET', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('REIGN', 'BEIGE PYTHON', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('RENO', 'DK-TAN', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('RENO', 'GREY PYTHON/BLK', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('RENO', 'RED', 'STRPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('RENO', 'BLACK', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('RENO', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('RENO', 'L-TAUPE', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('RENO', 'RED-STR', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('RENO', 'WHITE', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('REX', 'BLACK', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('REX', 'CHAR', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('REX', 'HAZEL', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('REX', 'LT-TAUPE', 'ISU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ROUTE', 'BLACK', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ROUTE', 'GREY', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('SECOND', 'BLACK', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('SECOND', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('SINCERE', 'BLACK', 'ISU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('SINCERE', 'COG', 'ISU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('SINCERE-M', 'M-GREY', 'ISU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('SINCERE.W', 'TAUPE', 'ISU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('SINGLE', 'BLACK', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('SKIP', 'CHEET', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('SKIP', 'ICE/WHITE', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('SKIP', 'TDYE PINK/BLUE', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('SOONG', 'BLACK', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('SOONG.W', 'D-CAML', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('SWEETEN', 'BLACK', 'NB');
+
+INSERT INTO shoe(name, color, material)
+VALUES('SWEETEN', 'L-BRN', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('SWEETEN', 'M-GREY', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('TAMY', 'NAT', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('TAYLOR', 'BLACK', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('TAYLOR', 'L-GREY', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('TAYLOR', 'OAT CHEET', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('TOPIC', 'BGE/TAN CAN', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('TOPIC', 'BLACK', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('TOPIC', 'DV-GREY', 'NB');
+
+INSERT INTO shoe(name, color, material)
+VALUES('TOPIC', 'GOLD', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('TOPIC', 'TAN', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('TOPIC', 'OAT CHEET', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('TRACER-M', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('TURNING', 'BLACK', 'ISU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('WAIT-A', 'BLACK', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('WAIT-A', 'NAT', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('WAIT-A', 'COGNAC', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('WAIT-A', 'YELLOW', 'NB');
+
+INSERT INTO shoe(name, color, material)
+VALUES('WANDER', 'MUL CHEET', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('WEEKEND', 'BLACK', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('WEEKEND', 'LIP', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('WEEKEND', 'NAT', 'NBPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('WOODS', 'CHE OAT/BLACK', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('WOODS', 'DK-KHAKI', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('WOODS', 'GREY CAN', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('WOODS', 'LT-KHAKI CAMO', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('WOODS', 'OAT CHEET', 'N/A');
+
+INSERT INTO shoe(name, color, material)
+VALUES('YUMMY', 'BLACK', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('YUMMY', 'TAN', 'PU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('YUMMY', 'TAUPE', 'DISPU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ZULUU', 'BLACK', 'IMSU');
+
+INSERT INTO shoe(name, color, material)
+VALUES('ZULUU', 'BLACK', 'PU');
+
+
 -- shoe_dimension
 INSERT INTO shoe_dimension(shoe_id, size, length, width, height, weight)
 VALUES(2, 5.5, 12.5, 17.5, 23.6, 34.23);
