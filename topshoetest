@@ -1840,8 +1840,8 @@ VALUES(1, 6, 19.6, 15.23, 28.7, 12.21);
 
 
 -- employ
-INSERT INTO employ(name, phone, birth, email, address, zip)
-VALUES('Allison', 1234567890, '03/17/1990', '123456@gmail.com', '123foster city SAN CA', '94578');
+INSERT INTO employ(name, phone, birth, email, address, zip, user_name, user_pass)
+VALUES('Allison', '1234567890', '03/17/1990', '123456@gmail.com', '123foster city SAN CA', '94578', '1234', '1234');
 
 
 --purchase_date
