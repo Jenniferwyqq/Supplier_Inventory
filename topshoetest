@@ -1850,7 +1850,7 @@ VALUES('2020-11-24', 2);
 
 --purchase
 INSERT INTO purchase(purchase_id, box_id, shoe_id, quantity, unit_price, employ_id)
-VALUES(2, 15, 2, 2, 2.0);
+VALUES(1, 15, 2, 2, 2.5, 1);
 
 --sell_date
 INSERT INTO sell_date(date)
