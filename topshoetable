@@ -14,14 +14,14 @@ create table brand(
 -- Name: employee
 -- Purpose: Describe attributes of a employee. Includes employee name, phone, birth, email, address, zip.
 create table employ(
-	id INT NOT NULL AUTO_INCREMENT,
-	name VARCHAR(50),
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50),
     phone VARCHAR(15),
     birth VARCHAR(20),
     email VARCHAR(50),
     address VARCHAR(50),
     zip INT,
-	user_name VARCHAR(15),
+    user_name VARCHAR(15),
     user_pass VARCHAR(15),
     PRIMARY KEY ( id )
 );
@@ -47,11 +47,11 @@ create table box_content(
 -- Name: Shoe
 -- Purpose: Describe attributes of a shoe, includes the name, color, and material of the shoe.
 create table shoe(
-	id INT NOT NULL AUTO_INCREMENT,
+    id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
     color VARCHAR(50) NOT NULL,
     material VARCHAR(50) NOT NULL,
-	PRIMARY KEY ( id )
+    PRIMARY KEY ( id )
 );
 
 -- Name: Shoe dimension
