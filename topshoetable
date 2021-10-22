@@ -100,6 +100,7 @@ create table purchase(
 	quantity INT,
 	unit_price FLOAT(5,2), 
 	employ_id INT,
+	brand_if INT,
 	PRIMARY KEY ( purchase_id, box_id, shoe_id ),
 	FOREIGN KEY (purchase_id) REFERENCES purchase_date(id),
 	FOREIGN KEY (box_id) REFERENCES box(id),
