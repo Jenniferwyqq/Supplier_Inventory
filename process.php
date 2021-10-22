@@ -58,10 +58,12 @@ if (isset($_POST['update'])){
     header('brand: index.php');
 }
 	
+
+
 if (isset($_POST['name'])){
 	$name = $_POST['name'];
-	$mysqli = new mysqli('localhost','root','123','top_shoe') or die(mysqli_error($mysqli));
-    $result = $mysqli->query("SELECT shoe.color AS color FROM shoe WHERE name = '$name") or die($mysqli->error);
+	$result = $mysqli->query("SELECT DISTINCT shoe.color FROM shoe WHERE name = '$name';") or die($mysqli->error);
+
 	$res = "";//把準備回傳的變數res準備好
 	while($data=mysqli_fetch_assoc($result)){
 	   $res .= "
@@ -70,4 +72,19 @@ if (isset($_POST['name'])){
 	};
 	echo $res;//將型號項目丟回給ajax
 }
-	
+
+if (isset($_POST['color'])){
+	$name = $_POST['xname'];
+	$color = $_POST['color'];
+	$result = $mysqli->query("SELECT DISTINCT shoe.material FROM shoe WHERE name = '$name' AND color = '$color';") or die($mysqli->error);
+
+	$res1 = "";//把準備回傳的變數res準備好
+	while($data=mysqli_fetch_assoc($result)){
+	   $res1 .= "
+		  <option value='{$data["material"]}'>{$data['material']}</option>
+	   ";//將對應的型號項目遞迴列出
+	};
+	echo $res1;//將型號項目丟回給ajax
+}
+?>
+
