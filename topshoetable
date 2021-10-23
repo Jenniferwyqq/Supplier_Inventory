@@ -51,6 +51,7 @@ create table shoe(
     name VARCHAR(50) NOT NULL,
     color VARCHAR(50) NOT NULL,
     material VARCHAR(50) NOT NULL,
+    brand_id INT,
     PRIMARY KEY ( id )
 );
 
