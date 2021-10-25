@@ -86,7 +86,7 @@ create table box_dimension(
 -- Purpose: Describe attributes of a purchase date. Includes which brand deliver goods.
 create table purchase_date(
 	id INT NOT NULL AUTO_INCREMENT,
-	date DATETIME,
+	date DATE,
 	brand_id INT,
 	PRIMARY KEY ( id ),
     FOREIGN KEY (brand_id) REFERENCES brand(id)
@@ -97,7 +97,7 @@ create table purchase_date(
 create table purchase(
 	purchase_id INT,
 	box_id INT,
-    shoe_id INT,
+    	shoe_id INT,
 	quantity INT,
 	unit_price FLOAT(5,2), 
 	employ_id INT,
