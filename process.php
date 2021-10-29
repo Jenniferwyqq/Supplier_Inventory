@@ -121,20 +121,49 @@ if (isset($_POST['brand4'])){
 	$name = $_POST['name3'];
 	$color = $_POST['color2'];
 	$material = $_POST['material1'];
+	$box = $_POST['box'];
 	$quantity = $_POST['quantity'];
 	$price = $_POST['price'];
 	$purchasedate = $_POST['purchasedate'];
-	$result5 = $mysqli->query("SELECT purchase_date.id AS pid FROM purchase_date WHERE purchase_date.date = '$purchasedate' AND purchase_date.brand_id = '$brand';") or die($mysqli->error);
-	
-
-
 	$res4 = "test";//把準備回傳的變數res準備好
+	$result5 = $mysqli->query("SELECT DISTINCT purchase_date.id AS pid FROM purchase_date WHERE purchase_date.date = '$purchasedate' AND purchase_date.brand_id = '$brand';") or die($mysqli->error);
+	
 	while($data=mysqli_fetch_assoc($result5)){
-	   $res4 .= "
-		 {$data["pid"]} /　
-	   ";//將對應的型號項目遞迴列出
-	};
-	echo $res4;//將型號項目丟回給ajax
+        $res4=$data['pid'];
+    }
+	
+	//find if data in purchase_date
+    if($res4=="test"){
+		$result6 = $mysqli->query("INSERT INTO purchase_date (date, brand_id) VALUES ('$purchasedate', '$brand');") or die($mysqli->error);
+		if($result6==true){
+			$result7 = $mysqli->query("SELECT DISTINCT purchase_date.id AS pid FROM purchase_date WHERE purchase_date.date = '$purchasedate' AND purchase_date.brand_id = '$brand';") or die($mysqli->error);
+			while($data1=mysqli_fetch_assoc($result7)){
+				$res4=$data1['pid'];
+			}
+		}		
+		else{
+			echo  "Error: " . $result6;
+		};
+    };
+	echo $res4;
+	
+	//find shoe id
+	$result8 = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.color = '$color' AND shoe.material = '$material' AND shoe.brand_id = '$brand';") or die($mysqli->error);
+	
+	while($data2=mysqli_fetch_assoc($result8)){
+        $shoe_id=$data2['sid'];
+    }
+	
+	//find box id
+	$result9 = $mysqli->query("SELECT DISTINCT box.id AS bid FROM box WHERE box.name = '$box' AND box.brand_id = '$brand';") or die($mysqli->error);
+	
+	while($data3=mysqli_fetch_assoc($result9)){
+        $box_id=$data3['bid'];
+    }
+	
+	//insert data to purchase, employee set 1
+	$result9 = $mysqli->query("INSERT INTO purchase (purchase_id, box_id, shoe_id, quantity, unit_price, employ_id, brand_id) VALUES ('$res4', '$box_id', '$shoe_id', '$quantity', '$price', '1', '$brand');") or die($mysqli->error);
+
 }
 ?>
 
