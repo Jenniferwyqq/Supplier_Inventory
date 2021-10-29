@@ -86,10 +86,10 @@ create table box_dimension(
 -- Purpose: Describe attributes of a purchase date. Includes which brand deliver goods.
 create table purchase_date(
 	id INT NOT NULL AUTO_INCREMENT,
-	date DATE,
+	date DATETIME,
 	brand_id INT,
 	PRIMARY KEY ( id ),
-    FOREIGN KEY (brand_id) REFERENCES brand(id)
+   	FOREIGN KEY (brand_id) REFERENCES brand(id)
 );
 
 -- Name: Purchase 
@@ -97,16 +97,17 @@ create table purchase_date(
 create table purchase(
 	purchase_id INT,
 	box_id INT,
-    	shoe_id INT,
+    shoe_id INT,
 	quantity INT,
 	unit_price FLOAT(5,2), 
 	employ_id INT,
-	brand_if INT,
-	PRIMARY KEY ( purchase_id, box_id, shoe_id, unit_price ),
+	brand_id INT,
+	PRIMARY KEY ( purchase_id, box_id, shoe_id ),
 	FOREIGN KEY (purchase_id) REFERENCES purchase_date(id),
 	FOREIGN KEY (box_id) REFERENCES box(id),
 	FOREIGN KEY (shoe_id) REFERENCES shoe(id),
-	FOREIGN KEY (employ_id) REFERENCES employ(id)
+	FOREIGN KEY (employ_id) REFERENCES employ(id),
+	FOREIGN KEY (brand_id) REFERENCES brand(id)
 );
 
 -- Name: Sell date //本來有brand但我想到beand在出貨的時候不重要
@@ -114,7 +115,9 @@ create table purchase(
 create table sell_date(
 	id INT NOT NULL AUTO_INCREMENT,
 	date DATETIME,
-	PRIMARY KEY ( id )
+	brand_id INT,
+	PRIMARY KEY ( id ),
+	FOREIGN KEY (brand_id) REFERENCES brand(id)
 );
 
 -- Name: Sell 
@@ -122,14 +125,16 @@ create table sell_date(
 create table sell(
 	sell_id INT,
 	box_id INT,
-    shoe_id INT,
+    	shoe_id INT,
 	quantity INT,
 	employ_id INT,
+	brand_id INT,
 	PRIMARY KEY ( sell_id, box_id, shoe_id ),
 	FOREIGN KEY (sell_id) REFERENCES sell_date(id),
 	FOREIGN KEY (box_id) REFERENCES box(id),
 	FOREIGN KEY (shoe_id) REFERENCES shoe(id),
-	FOREIGN KEY (employ_id) REFERENCES employ(id)
+	FOREIGN KEY (employ_id) REFERENCES employ(id),
+	FOREIGN KEY (brand_id) REFERENCES brand(id)
 );
 
 -- Name: rma
