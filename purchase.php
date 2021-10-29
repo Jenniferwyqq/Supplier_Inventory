@@ -30,14 +30,6 @@
 		<div class="row justify-content-center">
 			<?php 
 				date_default_timezone_set('UTC');
-				//$localtime = localtime();
-				//$m = date("m");
-				//$d = date("d");
-				//$y = date("y");
-				//$today = $y . '-' . $m . '-' . $d;
-				//$today = localtime();
-				//<input type="date" value="<?php echo date("Y-m-d");
-				
 			?>
 			<label for="date">Purchase Date</label>
 			<input type="date" id="date" name="date" value="<?php echo date("Y-m-d") ?>" min="2018-01-01" max="2030-12-31">
@@ -199,19 +191,17 @@ function msg() {
 			});
 		</script>
 		 <script>
-			
 			function getInputValue(){
-				
 				// Selecting the input element and get its value 
 				var brand = $('#brand :selected').val();
 				var name = $('#name :selected').val();
 				var color = $('#color :selected').val();
 				var material = $('#material :selected').val();
+				var box = $('#box :selected').val();
 				var quantity = document.getElementById("quantity").value;
 				var price = document.getElementById("price").value;
 				var purchasedate = $('#date').val();
-				alert(brand);
-				alert(purchasedate);
+				
 				$.ajax({
 					url:"process.php",				
 					method:"POST",
@@ -234,7 +224,6 @@ function msg() {
 						alert("Local completion callback.");
 					}
 				})//end ajax
-				//alert("123");
 			}
 		</script>
     </body>
