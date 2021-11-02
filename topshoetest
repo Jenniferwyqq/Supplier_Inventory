@@ -1821,7 +1821,7 @@ INSERT INTO shoe_dimension(shoe_id, size, length, width, height, weight)
 VALUES(4, 6, 19.6, 15.23, 28.7, 12.21);
 
 -- box_dimension
-INSERT INTO shoe_dimension(box_id, shoe_id, length, width, height, weight)
+INSERT INTO box_dimension(box_id, shoe_id, length, width, height, weight)
 VALUES(1, 6, 19.6, 15.23, 28.7, 12.21);
 
 
