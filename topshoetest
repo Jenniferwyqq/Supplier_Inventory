@@ -1844,7 +1844,7 @@ VALUES('2020-11-24');
 
 --sell
 INSERT INTO sell(sell_id, box_id, shoe_id, quantity, employ_id)
-VALUES(1, 15, 2, 2);
+VALUES(1, 15, 2, 2, 1);
 
 --section
 INSERT INTO section(floor, section)
