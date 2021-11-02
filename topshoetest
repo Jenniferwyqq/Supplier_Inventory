@@ -770,7 +770,7 @@ INSERT INTO box_content(box_id, size, quantity)
 VALUES(25, 9, 2);
 
 INSERT INTO box_content(box_id, size, quantity)
-VALUES(25, 10, 2)
+VALUES(25, 10, 2);
 
 INSERT INTO box_content(box_id, size, quantity)
 VALUES(26, 7, 1);
