@@ -1,18 +1,18 @@
 -- brand
 INSERT INTO box(name, phone, contact_name, email, address, zip)
-VALUES('FORTUNE DYNAMIC', 0, 'NA', 'NA', 'NA', 'NA');
+VALUES('FORTUNE DYNAMIC', '0', 'NA', 'NA', 'NA', 'NA');
 
 INSERT INTO box(name, phone, contact_name, email, address, zip)
-VALUES('FOREVER LINK', 0, 'NA', 'NA', 'NA', 'NA');
+VALUES('FOREVER LINK', '0', 'NA', 'NA', 'NA', 'NA');
 
 INSERT INTO box(name, phone, contact_name, email, address, zip)
-VALUES('TOP GUY', 0, 'NA', 'NA', 'NA', 'NA');
+VALUES('TOP GUY', '0', 'NA', 'NA', 'NA', 'NA');
 
 INSERT INTO box(name, phone, contact_name, email, address, zip)
-VALUES('TWIN TIGER', 0, 'NA', 'NA', 'NA', 'NA');
+VALUES('TWIN TIGER', '0', 'NA', 'NA', 'NA', 'NA');
 
 INSERT INTO box(name, phone, contact_name, email, address, zip)
-VALUES('WESTWOOD', 0, 'NA', 'NA', 'NA', 'NA');
+VALUES('WESTWOOD', '0', 'NA', 'NA', 'NA', 'NA');
 
 
 INSERT INTO brand(name,	phone, contact_name, email, address, zip)
