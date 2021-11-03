@@ -125,8 +125,9 @@ if (isset($_POST['brand4'])){
 	$quantity = $_POST['quantity'];
 	$price = $_POST['price'];
 	$purchasedate = $_POST['purchasedate'];
-	$res4 = "test";//把準備回傳的變數res準備好
+	$res4 = "test";
 	$result5 = $mysqli->query("SELECT DISTINCT purchase_date.id AS pid FROM purchase_date WHERE purchase_date.date = '$purchasedate' AND purchase_date.brand_id = '$brand';") or die($mysqli->error);
+	
 	
 	while($data=mysqli_fetch_assoc($result5)){
         $res4=$data['pid'];
@@ -154,15 +155,8 @@ if (isset($_POST['brand4'])){
         $shoe_id=$data2['sid'];
     }
 	
-	//find box id
-	$result9 = $mysqli->query("SELECT DISTINCT box.id AS bid FROM box WHERE box.name = '$box' AND box.brand_id = '$brand';") or die($mysqli->error);
-	
-	while($data3=mysqli_fetch_assoc($result9)){
-        $box_id=$data3['bid'];
-    }
-	
 	//insert data to purchase, employee set 1
-	$result9 = $mysqli->query("INSERT INTO purchase (purchase_id, box_id, shoe_id, quantity, unit_price, employ_id, brand_id) VALUES ('$res4', '$box_id', '$shoe_id', '$quantity', '$price', '1', '$brand');") or die($mysqli->error);
+	$result9 = $mysqli->query("INSERT INTO purchase (purchase_id, box_id, shoe_id, quantity, unit_price, employ_id) VALUES ('$res4', '$box', '$shoe_id', '$quantity', '$price', '1');") or die($mysqli->error);
 
 }
 ?>
