@@ -7,7 +7,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
     </head>
     <body>
-        <?php require_once 'process.php'; ?>
+        <?php require_once 'purchaseprocess.php'; ?>
         
         <?php if (isset($_SESSION['message'])): ?>
             <div class="alert alert-<?=$_SESSION['msg_type']?>">
@@ -22,7 +22,7 @@
             $mysqli = new mysqli('localhost','root','123','top_shoe') or die(mysqli_error($mysqli));
 			$resultbrand = $mysqli->query("SELECT DISTINCT brand.id AS brandid, brand.name AS brand FROM `brand` WHERE 1;") or die($mysqli->error);
 
-			$resultbox = $mysqli->query("SELECT DISTINCT box.name AS boxname FROM `box` WHERE 1") or die($mysqli->error);
+			//$resultbox = $mysqli->query("SELECT DISTINCT box.name AS boxname FROM `box` WHERE 1") or die($mysqli->error);
 
         ?>
 		</div>
@@ -113,9 +113,9 @@ function msg() {
         
         <script>
 			$(document).on('change', '#brand', function(){
-				var brand = $('#brand :selected').val();//注意:selected前面有個空格！
+				var brand = $('#brand :selected').val();
 				$.ajax({
-					url:"process.php",				
+					url:"purchaseprocess.php",				
 					method:"POST",
 					data:{
 						brand:brand
@@ -133,7 +133,7 @@ function msg() {
 				var brand = $('#brand :selected').val();
 				var name = $('#name :selected').val();
 				$.ajax({
-					url:"process.php",				
+					url:"purchaseprocess.php",				
 					method:"POST",
 					data:{
 						brand1:brand,
@@ -152,7 +152,7 @@ function msg() {
 				var name = $('#name :selected').val();
 				var color = $('#color :selected').val();
 				$.ajax({
-					url:"process.php",				
+					url:"purchaseprocess.php",				
 					method:"POST",
 					data:{
 						brand2:brand,
@@ -173,8 +173,9 @@ function msg() {
 				var name = $('#name :selected').val();
 				var color = $('#color :selected').val();
 				var material = $('#material :selected').val();
+				
 				$.ajax({
-					url:"process.php",				
+					url:"purchaseprocess.php",				
 					method:"POST",
 					data:{
 						brand3:brand,
@@ -183,9 +184,18 @@ function msg() {
 						material:material
 					},					
 					success:function(res3){		
-					res3 = "<option>-----</option>" +res3;					
-					$('#box').html(res3);
-					//$('#abc').html(value=res1);
+						alert(res3);
+						alert("Local success.");
+						res3 = "<option>-----</option>" +res3;					
+						$('#box').html(res3);
+					},
+					error: function (res3) {
+						alert(res3);
+						alert("Local error callback.");
+					},
+					complete: function (res3) {
+						alert(res3);
+						alert("Local completion callback.");
 					}
 				})//end ajax
 			});
@@ -203,13 +213,14 @@ function msg() {
 				var purchasedate = $('#date').val();
 				
 				$.ajax({
-					url:"process.php",				
+					url:"purchaseprocess.php",				
 					method:"POST",
 					data:{
 						brand4:brand,
 						name3:name,
 						color2:color,
 						material1:material,
+						box:box,
 						quantity:quantity,
 						price:price,
 						purchasedate:purchasedate
