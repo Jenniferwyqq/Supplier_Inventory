@@ -83,24 +83,33 @@ if (isset($_POST['brand4'])){
 	//find shoe id
 	$result10 = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.color = '$color' AND shoe.material = '$material' AND shoe.brand_id = '$brand';") or die($mysqli->error);
 	while($data2=mysqli_fetch_assoc($result10)){
-    $shoe_id=$data2['sid'];
+		$shoe_id=$data2['sid'];
 	}
 	
 	//find boxes
 	$result11 = $mysqli->query("SELECT * FROM box WHERE box.brand_id = '$brand';") or die($mysqli->error);
 	while ($boxes = $result11->fetch_assoc()){ 
-		//find quantity of purchase
 		$box_id = $boxes['id'];
-		$pquantity = $mysqli->query("SELECT SUM(quantity) FROM purchase WHERE purchase.shoe_id = 'shoe_id' AND purchase.box_id = '$box_id';") or die($mysqli->error);
-		//find quantity of sell
-		$squantity = $mysqli->query("SELECT SUM(quantity) FROM sell WHERE sell.shoe_id = 'shoe_id' AND sell.box_id = 'boxes';") or die($mysqli->error);
-		//substract
-		intval($pquantity) = intval($pquantity) - intval($squantity);
-		$divStr = $divStr . "<tr><td>" . $boxes['name'] . "</td><td>" . $pquantity . "</td></tr>";
+		
+		//find quantity of purchase
+		$pquantity = $mysqli->query("SELECT SUM(quantity) AS psum FROM purchase WHERE purchase.shoe_id = '$shoe_id' AND purchase.box_id = '$box_id';") or die($mysqli->error);
+		while($data3=mysqli_fetch_assoc($pquantity)){
+
+			//find quantity of sell
+			$squantity = $mysqli->query("SELECT SUM(quantity) AS ssum FROM sell WHERE sell.shoe_id = '$shoe_id' AND sell.box_id = '$box_id';") or die($mysqli->error);
+			while($data4=mysqli_fetch_assoc($squantity)){
+				$psum=$data3['psum'];
+				$ssum=$data4['ssum'];
+				$sum = $psum - $ssum;
+				if ($sum  > 0) {
+					$divStr = $divStr . "<tr><td>" . $boxes['name'] . "</td><td>" .  $sum . "</td></tr>";
+				} else {
+					$divStr = $divStr . "<tr><td>" . $boxes['name'] . "</td><td>" .  '0' . "</td></tr>";
+				}
+			}
+		}
 	}
 	$divStr = $divStr . "</table>";
 	echo $divStr;
 }
-	
-
 ?>
