@@ -107,14 +107,9 @@
 				</div>
 			</table>
 		</div>
-		
-		
-		
-		<script>
-function msg() {
-  alert("Hello world!");
-}
-</script>
+		<div id="here">
+		</div>
+
         
         <script>
 			$(document).on('change', '#brand', function(){
@@ -218,14 +213,14 @@ function msg() {
 						quantity:quantity,
 						selldate:selldate
 					},
-					success:function(res4){		
-						alert(res4);
+					success:function(divStr){		
+						document.getElementById("here").innerHTML = divStr;
 					},
-					error: function () {
+					error: function (divStr) {
 						alert("Local error callback.");
 					},
-					complete: function () {
-						alert("Local completion callback.");
+					complete: function (divStr) {
+						//alert("Local completion callback.");
 					}
 				})//end ajax
 			}
