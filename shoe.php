@@ -89,7 +89,7 @@
 			$(document).on('change', '#brand', function(){
 				var brand = $('#brand :selected').val();
 				$.ajax({
-					url:"boxprocess.php",				
+					url:"shoeprocess.php",				
 					method:"POST",
 					data:{
 						brand:brand
@@ -107,7 +107,7 @@
 				var brand = $('#brand :selected').val();
 				var name = $('#name :selected').val();
 				$.ajax({
-					url:"boxprocess.php",				
+					url:"shoeprocess.php",				
 					method:"POST",
 					data:{
 						brand1:brand,
@@ -126,7 +126,7 @@
 				var name = $('#name :selected').val();
 				var color = $('#color :selected').val();
 				$.ajax({
-					url:"boxprocess.php",				
+					url:"shoeprocess.php",				
 					method:"POST",
 					data:{
 						brand2:brand,
@@ -148,7 +148,7 @@
 				var material = $('#material :selected').val();
 				
 				$.ajax({
-					url:"purchaseprocess.php",				
+					url:"shoeprocess.php",				
 					method:"POST",
 					data:{
 						brand3:brand,
