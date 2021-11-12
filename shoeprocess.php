@@ -77,24 +77,29 @@ if (isset($_POST['brand4'])){
 	$name = $_POST['name3'];
 	$color = $_POST['color2'];
 	$material = $_POST['material1'];
-	$size = $_POST['size'];
-	$res4 = "";
 	
 	//find shoe id
-	$result8 = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.color = '$color' AND shoe.material = '$material' AND shoe.brand_id = '$brand';") or die($mysqli->error);
-	while($data2=mysqli_fetch_assoc($result8)){
+	$result10 = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.color = '$color' AND shoe.material = '$material' AND shoe.brand_id = '$brand';") or die($mysqli->error);
+	while($data2=mysqli_fetch_assoc($result10)){
         $shoe_id=$data2['sid'];
     }
 	
-	$resultbn = $mysqli->query("SELECT length AS length, width AS width, height AS height, weight AS weight FROM shoe_dimension WHERE shoe_dimension.shoe_id = '$shoe_id' AND shoe_dimension.size = $size;") or die($mysqli->error);
+	$sql = $mysqli->query("SELECT * FROM shoe_dimension WHERE shoe_dimension.shoe_id = '$shoe_id';") or die($mysqli->error);
 	
-	while($test=mysqli_fetch_assoc($resultbn)){ 
-			$res4.="".$test['length'].",".$test['width'].",".$test['height'].",".$test['weight']."";
-
-    }
-	echo $res4;
-
+	$divStr = "<table class=\"table\"><tr><th>size</th><th>length</th><th>width</th><th>height</th><th>weight</th></tr>";
+	
+	
+	while ($row = $sql->fetch_assoc()){ 
+		
+		$divStr = $divStr . "<tr><td>" . $row['size'] . "</td><td>" . $row['length'] . "</td><td>" . $row['width'] . "</td><td>" . $row['height'] . "</td><td>" . $row['weight'] . "</td></tr>";
+	};   
+	$divStr = $divStr . "</table>";
+	echo $divStr;
 }
+
+
+
+
 
 ?>
 
