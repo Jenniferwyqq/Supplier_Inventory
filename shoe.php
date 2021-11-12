@@ -74,37 +74,15 @@
 						</div>
 					</td>
 					<td>
-						<input type="text" placeholder="Enter size" id="size">
-						<input type="button" value="SEARCH" onclick="getInputValue()"> 
-					</td>
-				</tr>
-			</table>
-			
-			<table class="table">
-				<thead>
-					<tr>
-						<th>LENGTH</th>
-						<th>WIDTH</th>
-						<th>HEIGHT</th>
-						<th>WEIGHT</th>
-					</tr>
-				</thead>
-				<tr>
-					<td>
-						<text id = "length">  </text><br/>
-					</td>
-					<td>
-						<text id = "width">  </text><br/>
-					</td>
-					<td>
-						<text id = "height">  </text><br/>
-					</td>
-					<td>
-						<text id = "weight">  </text><br/>
+						<input type="button" value="SEARCH" onclick="setdivcontent()"> 
 					</td>
 				</tr>
 			</table>
 		</div>
+		
+		<div id="here">
+		</div>
+
 
 	
         <script>
@@ -179,7 +157,6 @@
 						material:material
 					},					
 					success:function(res3){		
-						alert("Local success.");
 						res3 = "<option>-----</option>" +res3;					
 						$('#box').html(res3);
 					},
@@ -187,19 +164,16 @@
 						alert("Local error callback.");
 					},
 					complete: function (res3) {
-						alert("Local completion callback.");
 					}
 				})//end ajax
 			});
 		</script>
 		 <script>
-			function getInputValue(){
-				// Selecting the input element and get its value 
+			function setdivcontent(){
 				var brand = $('#brand :selected').val();
 				var name = $('#name :selected').val();
 				var color = $('#color :selected').val();
 				var material = $('#material :selected').val();
-				var size = document.getElementById("size").value;
 				
 				$.ajax({
 					url:"shoeprocess.php",				
@@ -208,26 +182,15 @@
 						brand4:brand,
 						name3:name,
 						color2:color,
-						material1:material,
-						size: size
+						material1:material
 					},
-					success:function(res4){		
-						var $response_arr = res4.split(','); //切割陣列
-						
-						$var1=$response_arr[0];
-						$var2=$response_arr[1];
-						$var3=$response_arr[2];
-						$var4=$response_arr[3];
-						
-						$('#length').html($var1);
-						$('#width').html($var2);
-						$('#height').html($var3);
-						$('#weight').html($var4);
+					success:function(divStr){	
+						document.getElementById("here").innerHTML = divStr;
 					},
-					error: function () {
+					error: function (divStr) {
 						alert("Local error callback.");
 					},
-					complete: function () {
+					complete: function (divStr) {
 						//alert("Local completion callback.");
 					}
 				})//end ajax
