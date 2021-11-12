@@ -45,8 +45,7 @@
 						<th>COLOR</th>
 						<th>MATERIAL</th>
 						<th>BOX</th>
-						<th>QUANTITY</th>
-						<th>PRICE</th>
+						<th>QUANTITY & PRICE</th>
 					</tr>
 				</thead>
 				<div class="row justify-content-center">
@@ -103,7 +102,8 @@
 			</table>
 		</div>
 		
-		
+		<div id="here">
+		</div>
 		
 		<script>
 function msg() {
@@ -184,18 +184,18 @@ function msg() {
 						material:material
 					},					
 					success:function(res3){		
-						alert(res3);
-						alert("Local success.");
+						//alert(res3);
+						//alert("Local success.");
 						res3 = "<option>-----</option>" +res3;					
 						$('#box').html(res3);
 					},
 					error: function (res3) {
-						alert(res3);
-						alert("Local error callback.");
+						//alert(res3);
+						//alert("Local error callback.");
 					},
 					complete: function (res3) {
-						alert(res3);
-						alert("Local completion callback.");
+						//alert(res3);
+						//alert("Local completion callback.");
 					}
 				})//end ajax
 			});
@@ -225,14 +225,14 @@ function msg() {
 						price:price,
 						purchasedate:purchasedate
 					},
-					success:function(res4){		
-						alert(res4);
+					success:function(divStr){		
+						document.getElementById("here").innerHTML = divStr;
 					},
-					error: function () {
+					error: function (divStr) {
 						alert("Local error callback.");
 					},
-					complete: function () {
-						alert("Local completion callback.");
+					complete: function (divStr) {
+						//alert("Local completion callback.");
 					}
 				})//end ajax
 			}
