@@ -134,7 +134,7 @@ create table sell(
 	FOREIGN KEY (employ_id) REFERENCES employ(id)
 );
 
--- Name: revise date
+-- Name: inventory_revise
 -- Purpose: Describe attributes of a revise date. Includes which brand deliver goods.
 create table inventory_revise_date(
 	id INT NOT NULL AUTO_INCREMENT,
@@ -144,7 +144,7 @@ create table inventory_revise_date(
    	FOREIGN KEY (brand_id) REFERENCES brand(id)
 );
 
--- Name: Purchase 
+-- Name: inventory_revise 
 -- Purpose: Describe attributes of a purchase detail, includes box, shoe, quantity, and unit price of the shoe. And which employee records.
 create table inventory_revise(
 	revise_id INT,
