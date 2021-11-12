@@ -71,6 +71,21 @@ if (isset($_POST['brand4'])){
 	$quantity = $_POST['quantity'];
 	$selldate = $_POST['selldate'];
 	$res4 = "test";//把準備回傳的變數res準備好
+	
+	$divStr = "<table class=\"table\"><tr><th>brand</th><th>style</th><th>color</th><th>material</th><th>box</th><th>quantity</th><th>status</th></tr>";
+	
+	//brand name
+	$brandname = $mysqli->query("SELECT brand.name AS brn FROM brand WHERE brand.id = '$brand';") or die($mysqli->error);
+	while($databrand=mysqli_fetch_assoc($brandname)){
+        $brname=$databrand['brn'];
+    }
+	
+	//brand name
+	$boxname = $mysqli->query("SELECT box.name AS bn FROM box WHERE box.id = '$box';") or die($mysqli->error);
+	while($databox=mysqli_fetch_assoc($boxname)){
+        $bname=$databox['bn'];
+    }
+	
 	$result5 = $mysqli->query("SELECT DISTINCT sell_date.id AS seid FROM sell_date WHERE sell_date.date = '$selldate' AND sell_date.brand_id = '$brand';") or die($mysqli->error);
 	
 	while($data=mysqli_fetch_assoc($result5)){
@@ -90,7 +105,6 @@ if (isset($_POST['brand4'])){
 			echo  "Error: " . $result6;
 		};
     };
-	echo $res4;
 	
 	//find shoe id
 	$result8 = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.color = '$color' AND shoe.material = '$material' AND shoe.brand_id = '$brand';") or die($mysqli->error);
@@ -104,6 +118,9 @@ if (isset($_POST['brand4'])){
 	//insert data to sell, employee set 1
 	$result9 = $mysqli->query("INSERT INTO sell (sell_id, box_id, shoe_id, quantity, employ_id) VALUES ('$res4', '$box', '$shoe_id', '$quantity', '1');") or die($mysqli->error);
 
+	$divStr = $divStr . "<tr><td>" . $brname . "</td><td>" .  $name . "</td><td>" . $color . "</td><td>" . $material . "</td><td>" . $bname . "</td><td>" . $quantity . "</td><td>" . "updated success!" . "</td></tr>";
+
+	$divStr = $divStr . "</table>";
+	echo $divStr;
 }
 ?>
-
