@@ -77,8 +77,8 @@ if (isset($_POST['brand4'])){
 	$name = $_POST['name3'];
 	$color = $_POST['color2'];
 	$material = $_POST['material1'];
-	
-	$divStr = "<table class=\"table\"><tr><th>box</th><th>quantity</th></tr>";
+
+	$divStr = "<table class=\"table table-hover table-bordered\"><tr><th>box</th><th>quantity</th><th></th></tr>";
 	
 	//find shoe id
 	$result10 = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.color = '$color' AND shoe.material = '$material' AND shoe.brand_id = '$brand';") or die($mysqli->error);
@@ -98,18 +98,153 @@ if (isset($_POST['brand4'])){
 			//find quantity of sell
 			$squantity = $mysqli->query("SELECT SUM(quantity) AS ssum FROM sell WHERE sell.shoe_id = '$shoe_id' AND sell.box_id = '$box_id';") or die($mysqli->error);
 			while($data4=mysqli_fetch_assoc($squantity)){
-				$psum=$data3['psum'];
-				$ssum=$data4['ssum'];
-				$sum = $psum - $ssum;
-				if ($sum  > 0) {
-					$divStr = $divStr . "<tr><td>" . $boxes['name'] . "</td><td>" .  $sum . "</td></tr>";
-				} else {
-					$divStr = $divStr . "<tr><td>" . $boxes['name'] . "</td><td>" .  '0' . "</td></tr>";
+				
+				//find quantity of revise
+				$rquantity = $mysqli->query("SELECT SUM(quantity) AS rsum FROM inventory_revise WHERE inventory_revise.shoe_id = '$shoe_id' AND inventory_revise.box_id = '$box_id';") or die($mysqli->error);
+				while($data5=mysqli_fetch_assoc($rquantity)){
+					$psum=$data3['psum'];
+					$ssum=$data4['ssum'];
+					$rsum=$data5['rsum'];
+					$sum = $psum - $ssum + $rsum;
+					//$editbtn = "<input type=\"button\" value=\"EDIT\" class=\"btn btn-info\" id=\"$box_id\" onclick=\"editclick(this.id)\">";
+					$editbtn = "<button class=\"saveChanges\" id=\"$box_id\" onclick=\"editclick(this.id)\">ADD</button>";
+					$detailbtn = "<input type=\"button\" value=\"VIEW\" class=\"btn btn-info\" id=\"$box_id\" onclick=\"detailclick(this.id)\">";
+
+					if ($sum  == 0) {
+						$divStr = $divStr . "<tr><td>" . $boxes['name'] . "</td><td id =\"myText\" contenteditable=\"true\">" .  '0' . "</td><td>" .  $editbtn . $detailbtn . "</td></tr>";
+					} else {
+						$divStr = $divStr . "<tr><td>" . $boxes['name'] . "</td><td id =\"myText\" contenteditable=\"true\">" .  $sum . "</td><td>" .  $editbtn . $detailbtn . "</td></tr>";
+						
+					}
 				}
 			}
 		}
 	}
 	$divStr = $divStr . "</table>";
-	echo $divStr;
+	$test = "HEYYY";
+	$divStr2 = array();
+	$divStr2['divStr'] = $divStr;
+	$divStr2['test'] = $test;
+	echo json_encode($divStr2);
+}
+
+if (isset($_POST['clicked_id'])){
+	$brand = $_POST['brand5'];
+	$name = $_POST['name4'];
+	$color = $_POST['color3'];
+	$material = $_POST['material2'];
+	$clicked_id =  $_POST['clicked_id'];//box_id
+	$divStr1 = "<table class=\"table table-hover table-bordered\"><tr><th>active</th><th>date</th><th>quantity</th></tr>";
+	
+	//find shoe id
+	$result10 = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.color = '$color' AND shoe.material = '$material' AND shoe.brand_id = '$brand';") or die($mysqli->error);
+	while($datashoe=mysqli_fetch_assoc($result10)){
+		$shoe_id=$datashoe['sid'];
+	}
+	
+	//find quantity of purchase
+	$pinventory = $mysqli->query("SELECT * FROM purchase WHERE purchase.shoe_id = '$shoe_id' AND purchase.box_id = '$clicked_id';") or die($mysqli->error);
+	while($data3=mysqli_fetch_assoc($pinventory)){
+		//find date
+		$purdate = $data3['purchase_id'];
+		$result11 = $mysqli->query("SELECT DISTINCT purchase_date.date AS date FROM purchase_date WHERE purchase_date.id = $purdate;") or die($mysqli->error);
+		while($datadate=mysqli_fetch_assoc($result11)){
+			$pdate=$datadate['date'];
+		}
+		$divStr1 = $divStr1 . "<tr><td>" . 'purchase' . "</td><td>" .  $pdate . "</td><td>" .  $data3['quantity'] . "</td></tr>";
+	}	
+
+	//find quantity of sell
+	$sinventory = $mysqli->query("SELECT * FROM sell WHERE sell.shoe_id = '$shoe_id' AND sell.box_id = '$clicked_id';") or die($mysqli->error);
+	while($datasell=mysqli_fetch_assoc($sinventory)){
+		//find date
+		$selldate = $datasell['sell_id'];
+		$result12 = $mysqli->query("SELECT DISTINCT sell_date.date AS sdate FROM sell_date WHERE sell_date.id = $selldate;") or die($mysqli->error);
+		while($datadate=mysqli_fetch_assoc($result12)){
+			$sdate=$datadate['sdate'];
+		}
+		$divStr1 = $divStr1 . "<tr><td>" . 'sell' . "</td><td>" .  $sdate . "</td><td>" .  $datasell['quantity'] . "</td></tr>";
+	}	
+
+	//find revise of sell
+	$rinventory = $mysqli->query("SELECT * FROM inventory_revise WHERE inventory_revise.shoe_id = '$shoe_id' AND inventory_revise.box_id = '$clicked_id';") or die($mysqli->error);
+	while($datarev=mysqli_fetch_assoc($rinventory)){
+		//find date
+		$revdate = $datarev['revise_id'];
+		$result13 = $mysqli->query("SELECT DISTINCT inventory_revise_date.date AS rdate FROM inventory_revise_date WHERE inventory_revise_date.id = $revdate;") or die($mysqli->error);
+		while($datadate=mysqli_fetch_assoc($result13)){
+			$rdate=$datadate['rdate'];
+		}
+		$divStr1 = $divStr1 . "<tr><td>" . 'revise' . "</td><td>" .  $rdate . "</td><td>" .  $datarev['quantity'] . "</td></tr>";
+	}	
+	
+	$divStr1 = $divStr1 . "</table>";
+	echo $divStr1;
+}
+
+if (isset($_POST['content'])){
+	$brand = $_POST['brand6'];
+	$name = $_POST['name5'];
+	$color = $_POST['color4'];
+	$material = $_POST['material3'];
+	$box = $_POST['box'];
+	$content = $_POST['content'];
+	$rquantity = "";
+	$sum = "";
+	//find shoe id
+	$result10 = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.color = '$color' AND shoe.material = '$material' AND shoe.brand_id = '$brand';") or die($mysqli->error);
+	while($datashoe=mysqli_fetch_assoc($result10)){
+		$shoe_id=$datashoe['sid'];
+	}
+	
+	//find quantity of purchase
+	$pquantity = $mysqli->query("SELECT SUM(quantity) AS psum FROM purchase WHERE purchase.shoe_id = '$shoe_id' AND purchase.box_id = '$box';") or die($mysqli->error);
+	while($data3=mysqli_fetch_assoc($pquantity)){
+		//find quantity of sell
+		$squantity = $mysqli->query("SELECT SUM(quantity) AS ssum FROM sell WHERE sell.shoe_id = '$shoe_id' AND sell.box_id = '$box';") or die($mysqli->error);
+		while($data4=mysqli_fetch_assoc($squantity)){
+			//find quantity of revise
+			$rquantity = $mysqli->query("SELECT SUM(quantity) AS rsum FROM inventory_revise WHERE inventory_revise.shoe_id = '$shoe_id' AND inventory_revise.box_id = '$box';") or die($mysqli->error);
+			while($data5=mysqli_fetch_assoc($rquantity)){
+				$psum=$data3['psum'];
+				$ssum=$data4['ssum'];
+				$rsum=$data5['rsum'];
+				$sum = $psum - $ssum + $rsum;
+			}
+		}
+	}
+	$rquantity = $content - $sum;
+	
+	//get today's day
+	$date = date("Y-m-d");
+	
+	//find if data in inventory_revise_date
+	$res4="test";
+	$resultdate = $mysqli->query("SELECT * FROM inventory_revise_date WHERE inventory_revise_date.date = '$date' AND inventory_revise_date.brand_id = '$brand';") or die($mysqli->error);
+	while($datad=mysqli_fetch_assoc($resultdate)){
+        $res4=$datad['id'];
+    }
+	
+    if($res4=="test"){
+		$resultre = $mysqli->query("INSERT INTO inventory_revise_date (date, brand_id) VALUES ('$date', '$brand');") or die($mysqli->error);
+		if($resultre==true){
+			$resultrev = $mysqli->query("SELECT * FROM inventory_revise_date WHERE inventory_revise_date.date = '$date' AND inventory_revise_date.brand_id = '$brand';") or die($mysqli->error);
+			while($datarev=mysqli_fetch_assoc($resultrev)){
+				$res4=$datarev['id'];
+			}
+		}		
+		else{
+			echo  "Error: " . $resultre;
+		};
+    };
+	
+	//insert data to rev, employee set 1
+	$resultnr = $mysqli->query("INSERT INTO inventory_revise (revise_id, box_id, shoe_id, quantity, employ_id) VALUES ('$res4', '$box', '$shoe_id', '$rquantity', '1');") or die($mysqli->error);
+	
+	//insert data
+	
+	
+	
+	echo $resultnr;
 }
 ?>
