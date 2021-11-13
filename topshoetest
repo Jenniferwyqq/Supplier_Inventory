@@ -1312,7 +1312,7 @@ VALUES(44, 11, 18);
 
 -- shoe
 INSERT INTO shoe(name, color, material, brand_id)
-VALUES('NOLA', 'LT-TAN', 'NB', '1', '1');
+VALUES('NOLA', 'LT-TAN', 'NB', '1');
 
 INSERT INTO shoe(name, color, material, brand_id)
 VALUES('NOLA', 'BLACK', 'NBPU', '1');
