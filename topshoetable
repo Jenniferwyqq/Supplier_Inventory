@@ -153,6 +153,7 @@ create table inventory_revise(
 	revise_id INT,
 	box_id INT,
   	shoe_id INT,
+	quantity INT,
 	employ_id INT,
 	PRIMARY KEY ( id ),
 	FOREIGN KEY (revise_id) REFERENCES inventory_revise_date(id),
