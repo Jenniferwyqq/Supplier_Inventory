@@ -5,6 +5,11 @@
         <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     </head>
     <body>
         <?php require_once 'inventoryprocess.php'; ?>
@@ -73,13 +78,16 @@
 						</div>
 					</td>
 					<td>
-						<input type="button" value="SEARCH" onclick="setdivcontent()"> 
+						<input type="button" value="SEARCH" class="btn btn-info" onclick="setdivcontent()"> 
 					</td>
 				</tr>
 			</table>
 		</div>
 		
-		<div id="here">
+		<div class="table-responsive" id="here">
+		</div>
+		
+		<div class="table-responsive" id="view">
 		</div>
 
 
@@ -183,13 +191,70 @@
 						color2:color,
 						material1:material
 					},
-					success:function(divStr){	
-						document.getElementById("here").innerHTML = divStr;
+					success:function(divStr2){	
+						divStr2 = $.parseJSON(divStr2);
+						//alert(divStr2.test);
+						document.getElementById("here").innerHTML = divStr2.divStr;
 					},
 					error: function (divStr) {
 						alert("Local error callback.");
 					},
 					complete: function (divStr) {
+						//alert("Local completion callback.");
+					}
+				})//end ajax
+				//window.location.reload();
+			}
+		</script>
+		<script>
+		function editclick(clicked_id){
+			var brand = $('#brand :selected').val();
+			var name = $('#name :selected').val();
+			var color = $('#color :selected').val();
+			var material = $('#material :selected').val();
+			content = $('#myText').html();
+			alert(content);
+			$.ajax({
+			url:"inventoryprocess.php",
+			type:"POST",
+			data:{
+					brand6:brand,
+					name5:name,
+					color4:color,
+					material3:material,
+					box:clicked_id,
+					content:content
+				},
+			success:function(resultnr){
+				alert(resultnr);
+			}})
+		  }
+		</script>
+		<script>
+			function detailclick(clicked_id){
+				var brand = $('#brand :selected').val();
+				var name = $('#name :selected').val();
+				var color = $('#color :selected').val();
+				var material = $('#material :selected').val();
+
+				$.ajax({
+					url:"inventoryprocess.php",				
+					method:"POST",
+					data:{
+						brand5:brand,
+						name4:name,
+						color3:color,
+						material2:material,
+						clicked_id:clicked_id
+					},
+					success:function(divStr1){	
+						//alert(divStr1);
+						document.getElementById("view").innerHTML = divStr1;
+					},
+					error: function (divStr1) {
+						alert("Local error callback.");
+					},
+					complete: function (divStr1) {
 						//alert("Local completion callback.");
 					}
 				})//end ajax
