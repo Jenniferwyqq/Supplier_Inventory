@@ -83,116 +83,62 @@ create table box_dimension(
 	FOREIGN KEY (shoe_id) REFERENCES shoe(id)
 );
 
--- Name: Purchase date
--- Purpose: Describe attributes of a purchase date. Includes which brand deliver goods.
-create table purchase_date(
-	id INT NOT NULL AUTO_INCREMENT,
-	date DATE,
-	brand_id INT,
-	PRIMARY KEY ( id ),
-   	FOREIGN KEY (brand_id) REFERENCES brand(id)
-);
-
 -- Name: Purchase 
 -- Purpose: Describe attributes of a purchase detail, includes box, shoe, quantity, and unit price of the shoe. And which employee records.
 create table purchase(
     id INT NOT NULL AUTO_INCREMENT,
-	purchase_id INT,
+	date DATETIME,
 	box_id INT,
     shoe_id INT,
 	quantity INT,
 	unit_price FLOAT(5,2), 
 	employ_id INT,
 	PRIMARY KEY ( id ),
-	FOREIGN KEY (purchase_id) REFERENCES purchase_date(id),
 	FOREIGN KEY (box_id) REFERENCES box(id),
 	FOREIGN KEY (shoe_id) REFERENCES shoe(id),
 	FOREIGN KEY (employ_id) REFERENCES employ(id)
-);
-
--- Name: Sell date //本來有brand但我想到beand在出貨的時候不重要
--- Purpose: Describe attributes of a Sell date. 
-create table sell_date(
-	id INT NOT NULL AUTO_INCREMENT,
-	date DATE,
-	brand_id INT,
-	PRIMARY KEY ( id ),
-	FOREIGN KEY (brand_id) REFERENCES brand(id)
 );
 
 -- Name: Sell 
 -- Purpose: Describe attributes of a sell detail, includes box, shoe, and quantity. And which employee records.
 create table sell(
-     id INT NOT NULL AUTO_INCREMENT,
-	sell_id INT,
+    id INT NOT NULL AUTO_INCREMENT,
+	date DATETIME,
 	box_id INT,
-    	shoe_id INT,
+    shoe_id INT,
 	quantity INT,
 	employ_id INT,
 	PRIMARY KEY ( id ),
-	FOREIGN KEY (sell_id) REFERENCES sell_date(id),
 	FOREIGN KEY (box_id) REFERENCES box(id),
 	FOREIGN KEY (shoe_id) REFERENCES shoe(id),
 	FOREIGN KEY (employ_id) REFERENCES employ(id)
-);
-
--- Name: inventory_revise
--- Purpose: Describe attributes of a revise date. Includes which brand deliver goods.
-create table inventory_revise_date(
-	id INT NOT NULL AUTO_INCREMENT,
-	date DATE,
-	brand_id INT,
-	PRIMARY KEY ( id ),
-   	FOREIGN KEY (brand_id) REFERENCES brand(id)
 );
 
 -- Name: inventory_revise 
 -- Purpose: Describe attributes of a purchase detail, includes box, shoe, quantity, and unit price of the shoe. And which employee records.
 create table inventory_revise(
-     id INT NOT NULL AUTO_INCREMENT,
-	revise_id INT,
+    id INT NOT NULL AUTO_INCREMENT,
+	date DATETIME,
 	box_id INT,
   	shoe_id INT,
 	quantity INT,
 	employ_id INT,
 	PRIMARY KEY ( id ),
-	FOREIGN KEY (revise_id) REFERENCES inventory_revise_date(id),
 	FOREIGN KEY (box_id) REFERENCES box(id),
 	FOREIGN KEY (shoe_id) REFERENCES shoe(id),
 	FOREIGN KEY (employ_id) REFERENCES employ(id)
 );
 
--- Name: rma_back_date
--- Purpose: Describe attributes of a rma, include date.
-create table rma_back_date(
-	id INT NOT NULL AUTO_INCREMENT,
-	date DATE,
-	brand_id INT,
-	PRIMARY KEY ( id ),
-	FOREIGN KEY (brand_id) REFERENCES brand(id)
-);
-
--- Name: rma_sell_date
--- Purpose: Describe attributes of a rma, include date.
-create table rma_sell_date(
-	id INT NOT NULL AUTO_INCREMENT,
-	date DATE,
-	brand_id INT,
-	PRIMARY KEY ( id ),
-	FOREIGN KEY (brand_id) REFERENCES brand(id)
-);
-
 -- Name: rma_back
 -- Purpose: Describe attributes of a rma back to warehouse, include shoe, size, quantity. And which employee records.
 create table rma_back(
-     id INT NOT NULL AUTO_INCREMENT,
-	rma_id INT,
+    id INT NOT NULL AUTO_INCREMENT,
+	date DATETIME,
    	shoe_id INT,
 	size FLOAT(3,1),
 	quantity INT,
 	employ_id INT,
 	PRIMARY KEY (id ),
-	FOREIGN KEY (rma_id) REFERENCES rma_back_date(id),
 	FOREIGN KEY (shoe_id) REFERENCES shoe(id),
 	FOREIGN KEY (employ_id) REFERENCES employ(id)
 );
@@ -200,49 +146,27 @@ create table rma_back(
 -- Name: rma_sell
 -- Purpose: Describe attributes of a rma sold, include shoe, size, quantity. And which employee records.
 create table rma_sell(
-     id INT NOT NULL AUTO_INCREMENT,
-	rma_id INT,
-    	shoe_id INT,
+    id INT NOT NULL AUTO_INCREMENT,
+	date DATETIME,
+    shoe_id INT,
 	size FLOAT(3,1),
 	quantity INT,
 	employ_id INT,
 	PRIMARY KEY ( id ),
-	FOREIGN KEY (rma_id) REFERENCES rma_sell_date(id),
 	FOREIGN KEY (shoe_id) REFERENCES shoe(id),
 	FOREIGN KEY (employ_id) REFERENCES employ(id)
-);
-
--- Name: mix_back_date
--- Purpose: Describe attributes of a mix, include date.
-create table mix_back_date(
-	id INT NOT NULL AUTO_INCREMENT,
-	date DATE,
-	brand_id INT,
-	PRIMARY KEY ( id ),
-	FOREIGN KEY (brand_id) REFERENCES brand(id)
-);
-
--- Name: mix_sell_date
--- Purpose: Describe attributes of a mix, include date.
-create table mix_sell_date(
-	id INT NOT NULL AUTO_INCREMENT,
-	date DATE,
-	brand_id INT,
-	PRIMARY KEY ( id ),
-	FOREIGN KEY (brand_id) REFERENCES brand(id)
 );
 
 -- Name: mix_back
 -- Purpose: Describe attributes of a mix back to warehouse, include shoe, size, quantity. And which employee records.
 create table mix_back(
-     id INT NOT NULL AUTO_INCREMENT,
-	mix_id INT,
+    id INT NOT NULL AUTO_INCREMENT,
+	date DATETIME,
    	shoe_id INT,
 	size FLOAT(3,1),
 	quantity INT,
 	employ_id INT,
 	PRIMARY KEY (id ),
-	FOREIGN KEY (mix_id) REFERENCES mix_back_date(id),
 	FOREIGN KEY (shoe_id) REFERENCES shoe(id),
 	FOREIGN KEY (employ_id) REFERENCES employ(id)
 );
@@ -250,14 +174,13 @@ create table mix_back(
 -- Name: mix_sell
 -- Purpose: Describe attributes of a mix sold, include shoe, size, quantity. And which employee records.
 create table mix_sell(
-     id INT NOT NULL AUTO_INCREMENT,
-	mix_id INT,
-    	shoe_id INT,
+    id INT NOT NULL AUTO_INCREMENT,
+	date DATETIME,
+    shoe_id INT,
 	size FLOAT(3,1),
 	quantity INT,
 	employ_id INT,
 	PRIMARY KEY ( id ),
-	FOREIGN KEY (mix_id) REFERENCES mix_sell_date(id),
 	FOREIGN KEY (shoe_id) REFERENCES shoe(id),
 	FOREIGN KEY (employ_id) REFERENCES employ(id)
 );
