@@ -9,34 +9,24 @@
     <body>
         <?php require_once 'purchaseprocess.php'; ?>
         
-        <?php if (isset($_SESSION['message'])): ?>
-            <div class="alert alert-<?=$_SESSION['msg_type']?>">
-                <?php 
-                    echo $_SESSION['message']; 
-                    unset($_SESSION['message']);
-                ?>
-            </div>
-        <?php endif ?>
         <div class="container">
         <?php
             $mysqli = new mysqli('localhost','root','123','top_shoe') or die(mysqli_error($mysqli));
 			$resultbrand = $mysqli->query("SELECT DISTINCT brand.id AS brandid, brand.name AS brand FROM `brand` WHERE 1;") or die($mysqli->error);
-
-			//$resultbox = $mysqli->query("SELECT DISTINCT box.name AS boxname FROM `box` WHERE 1") or die($mysqli->error);
 
         ?>
 		</div>
 
 		<div class="row justify-content-center">
 			<?php 
-				date_default_timezone_set('UTC');
+				date_default_timezone_set('America/Los_Angeles');
 			?>
 			<label for="date">Purchase Date</label>
 			<input type="date" id="date" name="date" value="<?php echo date("Y-m-d") ?>" min="2018-01-01" max="2030-12-31">
 
 		</div>
 		
-		<div class="row justify-content-center">
+		<div class="container">
 			<table class="table">
 				<thead>
 					<tr>
@@ -45,10 +35,10 @@
 						<th>COLOR</th>
 						<th>MATERIAL</th>
 						<th>BOX</th>
-						<th>QUANTITY & PRICE</th>
+						<th>QUANTITY | PRICE</th>
 					</tr>
 				</thead>
-				<div class="row justify-content-center">
+				<div class="row">
 					<tr>
 						<td>
 							<div>
@@ -65,7 +55,7 @@
 							</div>
 						</td>
 						<td>
-							<div>
+							<div">
 								<select id='name'>
 									<option>-----</option>
 								</select>
@@ -93,57 +83,49 @@
 							</div>
 						</td>
 						<td>
-							<input type="text" placeholder="Enter quantity" id="quantity">
-							<input type="text" placeholder="Enter price" id="price">
-							<input type="button" value="ADD" onclick="getInputValue()"> 
+							<input type="text" class="col-sm-3" placeholder="Quantity" id="quantity">
+							<input type="text" class="col-sm-3" placeholder="Price" id="price">
+							<input type="button" class="btn btn-secondary" value="ADD" onclick="getInputValue()"> 
 						</td>
 					</tr>
 				</div>
 			</table>
 		</div>
-		
 		<div id="here">
 		</div>
 		
-		<script>
-function msg() {
-  alert("Hello world!");
-}
-</script>
-        
         <script>
 			$(document).on('change', '#brand', function(){
 				var brand = $('#brand :selected').val();
 				$.ajax({
-					url:"purchaseprocess.php",				
+					url:"inventoryprocess.php",				
 					method:"POST",
 					data:{
 						brand:brand
 					},					
-					success:function(res){		
-					res = "<option>-----</option>" +res;
-					$('#name').html(res);
+					success:function(s_name){		
+					s_name = "<option>-----</option>" +s_name;
+					$('#name').html(s_name);
 					}
-				})//end ajax
+				})
 			});
 		</script>
-		
 		<script>
 			$(document).on('change', '#name', function(){				
 				var brand = $('#brand :selected').val();
 				var name = $('#name :selected').val();
 				$.ajax({
-					url:"purchaseprocess.php",				
+					url:"inventoryprocess.php",				
 					method:"POST",
 					data:{
 						brand1:brand,
 						name:name
 					},					
-					success:function(res1){		
-					res1 = "<option>-----</option>" +res1;					
-					$('#color').html(res1);
+					success:function(s_color){		
+					s_color = "<option>-----</option>" +s_color;					
+					$('#color').html(s_color);
 					}
-				})//end ajax
+				})
 			});
 		</script>
 		<script>
@@ -152,19 +134,18 @@ function msg() {
 				var name = $('#name :selected').val();
 				var color = $('#color :selected').val();
 				$.ajax({
-					url:"purchaseprocess.php",				
+					url:"inventoryprocess.php",				
 					method:"POST",
 					data:{
 						brand2:brand,
 						name1:name,
 						color:color
-						
 					},					
-					success:function(res2){		
-					res2 = "<option>-----</option>" +res2;
-					$('#material').html(res2);
+					success:function(s_material){		
+					s_material = "<option>-----</option>" +s_material;
+					$('#material').html(s_material);
 					}
-				})//end ajax
+				})
 			});
 		</script>
 		<script>
@@ -183,26 +164,21 @@ function msg() {
 						color1:color,
 						material:material
 					},					
-					success:function(res3){		
-						//alert(res3);
-						//alert("Local success.");
-						res3 = "<option>-----</option>" +res3;					
-						$('#box').html(res3);
+					success:function(s_box){		
+						s_box = "<option>-----</option>" +s_box;					
+						$('#box').html(s_box);
 					},
-					error: function (res3) {
-						//alert(res3);
-						//alert("Local error callback.");
+					error: function (s_box) {
+						alert("Local error callback.");
 					},
-					complete: function (res3) {
-						//alert(res3);
+					complete: function (s_box) {
 						//alert("Local completion callback.");
 					}
 				})//end ajax
 			});
 		</script>
-		 <script>
+		<script>
 			function getInputValue(){
-				// Selecting the input element and get its value 
 				var brand = $('#brand :selected').val();
 				var name = $('#name :selected').val();
 				var color = $('#color :selected').val();
@@ -234,8 +210,44 @@ function msg() {
 					complete: function (divStr) {
 						//alert("Local completion callback.");
 					}
-				})//end ajax
+				})
 			}
+		</script>
+		<script>
+				$("#here").on('click','.saveChanges',function(){
+				var currentRow=$(this).closest("tr"); 
+				var brand=currentRow.find("td:eq(0)").text();
+				var name=currentRow.find("td:eq(1)").text();
+				var color=currentRow.find("td:eq(2)").text();
+				var material=currentRow.find("td:eq(3)").text();
+				var box=currentRow.find("td:eq(4)").text();
+				var quantity=currentRow.find("td:eq(5)").text();
+				var price=currentRow.find("td:eq(6)").text();
+				var purchasedate = $('#date').val();
+				$.ajax({
+					url:"purchaseprocess.php",
+					type:"POST",
+					data:{
+						brand5:brand,
+						name4:name,
+						color3:color,
+						material2:material,
+						box1:box,
+						quantity1:quantity,
+						price1:price,
+						purchasedate1:purchasedate
+					},
+					success:function(quantity){	
+						alert(quantity);
+					},
+					error: function () {
+						alert("Local error callback.");
+					},
+					complete: function () {
+						//alert("Local completion callback.");
+					}
+				});
+			});
 		</script>
     </body>
 </html>
