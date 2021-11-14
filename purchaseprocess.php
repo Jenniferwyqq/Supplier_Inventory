@@ -67,7 +67,7 @@ if (isset($_POST['brand4'])){
 	$price = $_POST['price'];
 	$purchasedate = $_POST['purchasedate'];
 	$id = "test";
-	$divStr = "<div class=\"container\"><table class=\"table\"><tr><th>brand</th><th>style</th><th>color</th><th>material</th><th>box</th><th>quantity</th><th>price</th><th>status</th><th>edit</th></tr>";
+	$divStr = "<div class=\"container table table-bordered table table-hover table table-condensed\"><table class=\"table\"><tr  class=\"info\"><th>brand</th><th>style</th><th>color</th><th>material</th><th>box</th><th>quantity</th><th>price</th><th>edit</th></tr>";
 	$oldquantity=0;
 
 	//find shoe_id	
@@ -90,7 +90,7 @@ if (isset($_POST['brand4'])){
 	}
 	
 	//display the list which is updated today;
-	$hpurchase = $mysqli->query("SELECT * FROM purchase WHERE purchase.date = '$purchasedate';") or die($mysqli->error);
+	$hpurchase = $mysqli->query("SELECT * FROM purchase WHERE purchase.date = '$purchasedate' ORDER BY shoe_id ASC, box_id ASC, unit_price ASC;") or die($mysqli->error);
 	while($p_history=mysqli_fetch_assoc($hpurchase)){
 		//find quantity and price
 		$hisid = $p_history['id'];
@@ -115,7 +115,7 @@ if (isset($_POST['brand4'])){
 					$hisbrand_name = $resbrand['name'];
 					$editbtn = "<button class=\"saveChanges\" id=\"$hisid\" onclick=\"editclick(this.id\")\">UPDATE</button>";
 					//$divStr = $divStr . "<tr><td>" . $hisbrand_name . "</td><td>" .  $his_name . "</td><td>" . $his_color . "</td><td>" . $his_material . "</td><td>" . $hisbox_name . "</td><td contenteditable=\"true\">" . $hisquantity . "</td><td contenteditable=\"true\">" . $hisprice . "</td><td>" . "updated success!" . "</td><td>" .  $editbtn . "</td></tr>";
-					$divStr = $divStr . "<tr><td>" . $hisbrand_name . "</td><td>" .  $his_name . "</td><td>" . $his_color . "</td><td>" . $his_material . "</td><td>" . $hisbox_name . "</td><td contenteditable=\"true\">" . $hisquantity . "</td><td contenteditable=\"true\">" . $hisprice . "</td><td>" . "updated success!" . "</td><td>" .  $editbtn . "</td></tr>";
+					$divStr = $divStr . "<tr><td>" . $hisbrand_name . "</td><td>" .  $his_name . "</td><td>" . $his_color . "</td><td>" . $his_material . "</td><td>" . $hisbox_name . "</td><td contenteditable=\"true\">" . $hisquantity . "</td><td contenteditable=\"true\">" . "$" . $hisprice . "</td><td>" .  $editbtn . "</td></tr>";
 				}
 			}
 		}
@@ -139,6 +139,7 @@ if (isset($_POST['brand5'])){
 	$box_id1 = '';
 	$brand_id1 = '';
 	$res = "fail";
+
 	//find brand_id	
 	$brandid = $mysqli->query("SELECT DISTINCT brand.id AS brid FROM brand WHERE brand.name = '$brand';") or die($mysqli->error);
 	while($br_id=mysqli_fetch_assoc($brandid)){
@@ -157,7 +158,7 @@ if (isset($_POST['brand5'])){
 	
 	$update_purchased = $mysqli->query("UPDATE purchase SET quantity = '$quantity', unit_price = '$price' WHERE purchase.shoe_id = '$shoe_id1' AND purchase.box_id = '$box_id1' AND purchase.date = '$purchasedate';") or die($mysqli->error);
 	if($update_purchased ==true){
-		$res = "success";
+		$res = "update success";
 	}
 	echo $res;
 }	
