@@ -9,34 +9,23 @@
     <body>
         <?php require_once 'sellprocess.php'; ?>
         
-        <?php if (isset($_SESSION['message'])): ?>
-            <div class="alert alert-<?=$_SESSION['msg_type']?>">
-                <?php 
-                    echo $_SESSION['message']; 
-                    unset($_SESSION['message']);
-                ?>
-            </div>
-        <?php endif ?>
         <div class="container">
         <?php
             $mysqli = new mysqli('localhost','root','123','top_shoe') or die(mysqli_error($mysqli));
 			$resultbrand = $mysqli->query("SELECT DISTINCT brand.id AS brandid, brand.name AS brand FROM `brand` WHERE 1;") or die($mysqli->error);
 
-			$resultbox = $mysqli->query("SELECT DISTINCT box.name AS boxname FROM `box` WHERE 1") or die($mysqli->error);
-
         ?>
 		</div>
+		<div class="container table-responsive">
+			<div class="row justify-content-center">
+				<?php 
+					date_default_timezone_set('America/Los_Angeles');
+				?>
+				<label for="date">Sell Date</label>
+				<input type="date" id="date" name="date" value="<?php echo date("Y-m-d") ?>" min="2018-01-01" max="2030-12-31">
 
-		<div class="row justify-content-center">
-			<?php 
-				date_default_timezone_set('UTC');
-			?>
-			<label for="date">Sell Date</label>
-			<input type="date" id="date" name="date" value="<?php echo date("Y-m-d") ?>" min="2018-01-01" max="2030-12-31">
-
-		</div>
-		
-		<div class="row justify-content-center">
+			</div>
+			<div>
 			<table class="table">
 				<thead>
 					<tr>
@@ -48,7 +37,7 @@
 						<th>QUANTITY</th>
 					</tr>
 				</thead>
-				<div class="row justify-content-center">
+				<div class="row">
 					<tr>
 						<td>
 							<div>
@@ -65,7 +54,7 @@
 							</div>
 						</td>
 						<td>
-							<div>
+							<div">
 								<select id='name'>
 									<option>-----</option>
 								</select>
@@ -89,61 +78,53 @@
 							<div>
 								<select id='box'>
 									<option>-----</option>
-									<?php
-									while($data=mysqli_fetch_assoc($resultbox)){
-									?>
-										  <option value="<?php echo $data['boxid'];?>"><?php echo $data['box'];?></option>
-									<?php
-									}
-									?>
 								</select>
 							</div>
 						</td>
 						<td>
-							<input type="text" placeholder="Enter quantity" id="quantity">
-							<input type="button" value="ADD" onclick="getInputValue()"> 
+							<input type="text" class="col-xs-5" placeholder="Quantity" id="quantity">
+							<input type="button" class="btn btn-secondary" value="ADD" onclick="getInputValue()"> 
 						</td>
 					</tr>
 				</div>
 			</table>
+			</div>
 		</div>
 		<div id="here">
 		</div>
-
-        
+		
         <script>
 			$(document).on('change', '#brand', function(){
-				var brand = $('#brand :selected').val();//注意:selected前面有個空格！
+				var brand = $('#brand :selected').val();
 				$.ajax({
-					url:"sellprocess.php",				
+					url:"inventoryprocess.php",				
 					method:"POST",
 					data:{
 						brand:brand
 					},					
-					success:function(res){		
-					res = "<option>-----</option>" +res;
-					$('#name').html(res);
+					success:function(s_name){		
+					s_name = "<option>-----</option>" +s_name;
+					$('#name').html(s_name);
 					}
-				})//end ajax
+				})
 			});
 		</script>
-		
 		<script>
 			$(document).on('change', '#name', function(){				
 				var brand = $('#brand :selected').val();
 				var name = $('#name :selected').val();
 				$.ajax({
-					url:"sellprocess.php",				
+					url:"inventoryprocess.php",				
 					method:"POST",
 					data:{
 						brand1:brand,
 						name:name
 					},					
-					success:function(res1){		
-					res1 = "<option>-----</option>" +res1;					
-					$('#color').html(res1);
+					success:function(s_color){		
+					s_color = "<option>-----</option>" +s_color;					
+					$('#color').html(s_color);
 					}
-				})//end ajax
+				})
 			});
 		</script>
 		<script>
@@ -152,19 +133,18 @@
 				var name = $('#name :selected').val();
 				var color = $('#color :selected').val();
 				$.ajax({
-					url:"sellprocess.php",				
+					url:"inventoryprocess.php",				
 					method:"POST",
 					data:{
 						brand2:brand,
 						name1:name,
 						color:color
-						
 					},					
-					success:function(res2){		
-					res2 = "<option>-----</option>" +res2;
-					$('#material').html(res2);
+					success:function(s_material){		
+					s_material = "<option>-----</option>" +s_material;
+					$('#material').html(s_material);
 					}
-				})//end ajax
+				})
 			});
 		</script>
 		<script>
@@ -173,6 +153,7 @@
 				var name = $('#name :selected').val();
 				var color = $('#color :selected').val();
 				var material = $('#material :selected').val();
+				
 				$.ajax({
 					url:"sellprocess.php",				
 					method:"POST",
@@ -182,17 +163,21 @@
 						color1:color,
 						material:material
 					},					
-					success:function(res3){		
-					res3 = "<option>-----</option>" +res3;					
-					$('#box').html(res3);
-					//$('#abc').html(value=res1);
+					success:function(s_box){		
+						s_box = "<option>-----</option>" +s_box;					
+						$('#box').html(s_box);
+					},
+					error: function (s_box) {
+						alert("Local error callback.");
+					},
+					complete: function (s_box) {
+						//alert("Local completion callback.");
 					}
 				})//end ajax
 			});
 		</script>
-		 <script>
+		<script>
 			function getInputValue(){
-				// Selecting the input element and get its value 
 				var brand = $('#brand :selected').val();
 				var name = $('#name :selected').val();
 				var color = $('#color :selected').val();
@@ -214,6 +199,7 @@
 						selldate:selldate
 					},
 					success:function(divStr){		
+						alert("insert success");
 						document.getElementById("here").innerHTML = divStr;
 					},
 					error: function (divStr) {
@@ -222,8 +208,42 @@
 					complete: function (divStr) {
 						//alert("Local completion callback.");
 					}
-				})//end ajax
+				})
 			}
+		</script>
+		<script>
+				$("#here").on('click','.saveChanges',function(){
+				var currentRow=$(this).closest("tr"); 
+				var brand=currentRow.find("td:eq(0)").text();
+				var name=currentRow.find("td:eq(1)").text();
+				var color=currentRow.find("td:eq(2)").text();
+				var material=currentRow.find("td:eq(3)").text();
+				var box=currentRow.find("td:eq(4)").text();
+				var quantity=currentRow.find("td:eq(5)").text();
+				var selldate = $('#date').val();
+				$.ajax({
+					url:"sellprocess.php",
+					type:"POST",
+					data:{
+						brand5:brand,
+						name4:name,
+						color3:color,
+						material2:material,
+						box1:box,
+						quantity1:quantity,
+						selldate1:selldate
+					},
+					success:function(res){	
+						alert(res);
+					},
+					error: function () {
+						alert("Local error callback.");
+					},
+					complete: function () {
+						//alert("Local completion callback.");
+					}
+				});
+			});
 		</script>
     </body>
 </html>
