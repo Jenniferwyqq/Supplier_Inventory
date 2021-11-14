@@ -87,7 +87,7 @@ create table box_dimension(
 -- Purpose: Describe attributes of a purchase detail, includes box, shoe, quantity, and unit price of the shoe. And which employee records.
 create table purchase(
     id INT NOT NULL AUTO_INCREMENT,
-	date DATETIME,
+	date DATE,
 	box_id INT,
     shoe_id INT,
 	quantity INT,
@@ -103,7 +103,7 @@ create table purchase(
 -- Purpose: Describe attributes of a sell detail, includes box, shoe, and quantity. And which employee records.
 create table sell(
     id INT NOT NULL AUTO_INCREMENT,
-	date DATETIME,
+	date DATE,
 	box_id INT,
     shoe_id INT,
 	quantity INT,
@@ -118,7 +118,7 @@ create table sell(
 -- Purpose: Describe attributes of a purchase detail, includes box, shoe, quantity, and unit price of the shoe. And which employee records.
 create table inventory_revise(
     id INT NOT NULL AUTO_INCREMENT,
-	date DATETIME,
+	date DATE,
 	box_id INT,
   	shoe_id INT,
 	quantity INT,
@@ -133,7 +133,7 @@ create table inventory_revise(
 -- Purpose: Describe attributes of a rma back to warehouse, include shoe, size, quantity. And which employee records.
 create table rma_back(
     id INT NOT NULL AUTO_INCREMENT,
-	date DATETIME,
+	date DATE,
    	shoe_id INT,
 	size FLOAT(3,1),
 	quantity INT,
@@ -147,7 +147,7 @@ create table rma_back(
 -- Purpose: Describe attributes of a rma sold, include shoe, size, quantity. And which employee records.
 create table rma_sell(
     id INT NOT NULL AUTO_INCREMENT,
-	date DATETIME,
+	date DATE,
     shoe_id INT,
 	size FLOAT(3,1),
 	quantity INT,
@@ -161,7 +161,7 @@ create table rma_sell(
 -- Purpose: Describe attributes of a mix back to warehouse, include shoe, size, quantity. And which employee records.
 create table mix_back(
     id INT NOT NULL AUTO_INCREMENT,
-	date DATETIME,
+	date DATE,
    	shoe_id INT,
 	size FLOAT(3,1),
 	quantity INT,
@@ -175,7 +175,7 @@ create table mix_back(
 -- Purpose: Describe attributes of a mix sold, include shoe, size, quantity. And which employee records.
 create table mix_sell(
     id INT NOT NULL AUTO_INCREMENT,
-	date DATETIME,
+	date DATE,
     shoe_id INT,
 	size FLOAT(3,1),
 	quantity INT,
