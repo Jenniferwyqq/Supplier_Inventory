@@ -101,14 +101,13 @@
 					data:{
 						brand:brand
 					},					
-					success:function(res){		
-					res = "<option>-----</option>" +res;
-					$('#name').html(res);
+					success:function(s_name){		
+					s_name = "<option>-----</option>" +s_name;
+					$('#name').html(s_name);
 					}
-				})//end ajax
+				})
 			});
 		</script>
-		
 		<script>
 			$(document).on('change', '#name', function(){				
 				var brand = $('#brand :selected').val();
@@ -120,11 +119,11 @@
 						brand1:brand,
 						name:name
 					},					
-					success:function(res1){		
-					res1 = "<option>-----</option>" +res1;					
-					$('#color').html(res1);
+					success:function(s_color){		
+					s_color = "<option>-----</option>" +s_color;					
+					$('#color').html(s_color);
 					}
-				})//end ajax
+				})
 			});
 		</script>
 		<script>
@@ -140,15 +139,16 @@
 						name1:name,
 						color:color
 					},					
-					success:function(res2){		
-					res2 = "<option>-----</option>" +res2;
-					$('#material').html(res2);
+					success:function(s_material){		
+					s_material = "<option>-----</option>" +s_material;
+					$('#material').html(s_material);
 					}
-				})//end ajax
+				})
 			});
 		</script>
-		<script>
-			$(document).on('change', '#material', function(){
+		 <script>
+			function setdivcontent(){
+				
 				var brand = $('#brand :selected').val();
 				var name = $('#name :selected').val();
 				var color = $('#color :selected').val();
@@ -162,39 +162,10 @@
 						name2:name,
 						color1:color,
 						material:material
-					},					
-					success:function(res3){		
-						res3 = "<option>-----</option>" +res3;					
-						$('#box').html(res3);
 					},
-					error: function (res3) {
-						alert("Local error callback.");
-					},
-					complete: function (res3) {
-					}
-				})//end ajax
-			});
-		</script>
-		 <script>
-			function setdivcontent(){
-				var brand = $('#brand :selected').val();
-				var name = $('#name :selected').val();
-				var color = $('#color :selected').val();
-				var material = $('#material :selected').val();
-				
-				$.ajax({
-					url:"inventoryprocess.php",				
-					method:"POST",
-					data:{
-						brand4:brand,
-						name3:name,
-						color2:color,
-						material1:material
-					},
-					success:function(divStr2){	
-						divStr2 = $.parseJSON(divStr2);
-						//alert(divStr2.test);
-						document.getElementById("here").innerHTML = divStr2.divStr;
+					success:function(divStr){	
+					
+						document.getElementById("here").innerHTML = divStr;
 					},
 					error: function (divStr) {
 						alert("Local error callback.");
@@ -207,29 +178,41 @@
 			}
 		</script>
 		<script>
-		function editclick(clicked_id){
-			var brand = $('#brand :selected').val();
-			var name = $('#name :selected').val();
-			var color = $('#color :selected').val();
-			var material = $('#material :selected').val();
-			content = $('#myText').html();
-			alert(content);
-			$.ajax({
-			url:"inventoryprocess.php",
-			type:"POST",
-			data:{
-					brand6:brand,
-					name5:name,
-					color4:color,
-					material3:material,
-					box:clicked_id,
-					content:content
-				},
-			success:function(resultnr){
-				alert(resultnr);
-			}})
-		  }
+			$("#here").on('click','.saveChanges',function(){
+				var currentRow=$(this).closest("tr"); 
+				var box=currentRow.find("td:eq(0)").text();
+				var content=currentRow.find("td:eq(1)").text(); // get current row 1st TD value
+				//alert(content);
+				//alert(box);
+				var brand = $('#brand :selected').val();
+				var name = $('#name :selected').val();
+				var color = $('#color :selected').val();
+				var material = $('#material :selected').val();
+				
+				$.ajax({
+					url:"inventoryprocess.php",
+					type:"POST",
+					data:{
+						brand4:brand,
+						name3:name,
+						color2:color,
+						material1:material,
+						box:box,
+						content:content
+					},
+					success:function(fquantity){	
+						alert(fquantity);
+					},
+					error: function (divStr1) {
+						alert("Local error callback.");
+					},
+					complete: function (divStr1) {
+						//alert("Local completion callback.");
+					}
+				});
+			});
 		</script>
+
 		<script>
 			function detailclick(clicked_id){
 				var brand = $('#brand :selected').val();
@@ -245,10 +228,10 @@
 						name4:name,
 						color3:color,
 						material2:material,
-						clicked_id:clicked_id
+						box1:clicked_id
 					},
 					success:function(divStr1){	
-						//alert(divStr1);
+						
 						document.getElementById("view").innerHTML = divStr1;
 					},
 					error: function (divStr1) {
