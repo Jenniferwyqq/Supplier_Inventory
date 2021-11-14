@@ -16,17 +16,16 @@
 
         ?>
 		</div>
+		<div class="container table-responsive">
+			<div class="row justify-content-center">
+				<?php 
+					date_default_timezone_set('America/Los_Angeles');
+				?>
+				<label for="date">Purchase Date</label>
+				<input type="date" id="date" name="date" value="<?php echo date("Y-m-d") ?>" min="2018-01-01" max="2030-12-31">
 
-		<div class="row justify-content-center">
-			<?php 
-				date_default_timezone_set('America/Los_Angeles');
-			?>
-			<label for="date">Purchase Date</label>
-			<input type="date" id="date" name="date" value="<?php echo date("Y-m-d") ?>" min="2018-01-01" max="2030-12-31">
-
-		</div>
-		
-		<div class="container">
+			</div>
+			<div>
 			<table class="table">
 				<thead>
 					<tr>
@@ -83,13 +82,14 @@
 							</div>
 						</td>
 						<td>
-							<input type="text" class="col-sm-3" placeholder="Quantity" id="quantity">
-							<input type="text" class="col-sm-3" placeholder="Price" id="price">
+							<input type="text" class="col-sm-4" placeholder="Quantity" id="quantity">
+							<input type="text" class="col-sm-4" placeholder="Price" id="price">
 							<input type="button" class="btn btn-secondary" value="ADD" onclick="getInputValue()"> 
 						</td>
 					</tr>
 				</div>
 			</table>
+			</div>
 		</div>
 		<div id="here">
 		</div>
@@ -202,6 +202,7 @@
 						purchasedate:purchasedate
 					},
 					success:function(divStr){		
+						alert("insert success");
 						document.getElementById("here").innerHTML = divStr;
 					},
 					error: function (divStr) {
@@ -237,8 +238,8 @@
 						price1:price,
 						purchasedate1:purchasedate
 					},
-					success:function(quantity){	
-						alert(quantity);
+					success:function(res){	
+						alert(res);
 					},
 					error: function () {
 						alert("Local error callback.");
