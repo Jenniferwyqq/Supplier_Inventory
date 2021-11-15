@@ -46,7 +46,7 @@ if (isset($_POST['brand3'])){
 	$name = $_POST['name2'];
 	$color = $_POST['color1'];
 	$material = $_POST['material'];
-	$divStr = "<table class=\"table table-hover table-bordered\"><tr><th>box</th><th>quantity</th><th></th></tr>";
+	$divStr = "<table class=\"table table-hover table-bordered table-condensed table-striped\"><tr><th>box</th><th>quantity</th><th></th></tr>";
 	
 	//find shoe id
 	$shie_id = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.color = '$color' AND shoe.material = '$material' AND shoe.brand_id = '$brand';") or die($mysqli->error);
@@ -71,16 +71,7 @@ if (isset($_POST['brand3'])){
 					$ssum=$sq['ssum'];
 					$rsum=$rq['rsum'];
 					$sum = $psum - $ssum + $rsum;
-					/*$editbtn = "<input type=\"button\" value=\"EDIT\" class=\"btn btn-info\" id=\"$box_id\" onclick=\"editclick(this.id)\">";
-					//$editbtn = "<button class=\"saveChanges\" id=\"$box_id\" onclick=\"editclick(this.id\")\">ADD</button>";
-					$detailbtn = "<input type=\"button\" value=\"VIEW\" class=\"btn btn-info\" id=\"$box_id\" onclick=\"detailclick(this.id)\">";
-
-					if ($sum  == 0) {
-						$divStr = $divStr . "<tr><td>" . $boxes['name'] . "</td><td id =\"myText\" contenteditable=\"true\">" .  '0' . "</td><td>" .  $editbtn . $detailbtn . "</td></tr>";
-					} else {
-						$divStr = $divStr . "<tr><td>" . $boxes['name'] . "</td><td id =\"myText\" contenteditable=\"true\">" .  $sum . "</td><td>" .  $editbtn . $detailbtn . "</td></tr>";
-					}*/
-					$editbtn = "<button class=\"saveChanges\" id=\"$box_id\" onclick=\"editclick(this.id\")\">ADD</button>";
+					$editbtn = "<button class=\"saveChanges\" id=\"$box_id\" onclick=\"editclick(this.id)\">UPDATE</button>";
 					$detailbtn = "<input type=\"button\" value=\"VIEW\" class=\"btn btn-info\" id=\"$box_id\" onclick=\"detailclick(this.id)\">";
 					if ($sum  == 0) {
 						$divStr = $divStr . "<tr><td>" . $boxes['name'] . "</td><td contenteditable=\"true\">" .  '0' . "</td><td>" .  $editbtn . $detailbtn . "</td></tr>";
@@ -134,29 +125,11 @@ if (isset($_POST['brand4'])){
 	}
 	
 	//get today's day
-	$date = date("Y-m-d");
-	
-	//find if data in inventory_revise_date
-	$redate="test";
-	$re_date = $mysqli->query("SELECT * FROM inventory_revise_date WHERE inventory_revise_date.date = '$date' AND inventory_revise_date.brand_id = '$brand';") or die($mysqli->error);
-	while($rdate=mysqli_fetch_assoc($re_date)){
-        $redate=$rdate['id'];
-    }
-	
-    if($redate=="test"){
-		$resultre = $mysqli->query("INSERT INTO inventory_revise_date (date, brand_id) VALUES ('$date', '$brand');") or die($mysqli->error);
-		if($resultre==true){
-			$resultrev = $mysqli->query("SELECT * FROM inventory_revise_date WHERE inventory_revise_date.date = '$date' AND inventory_revise_date.brand_id = '$brand';") or die($mysqli->error);
-			while($datarev=mysqli_fetch_assoc($resultrev)){
-				$redate=$datarev['id'];
-			}
-		}		
-    };
 	
 	$fquantity = $content - $sum1;
 	
 	//insert data to rev, employee set 1
-	$resultnr = $mysqli->query("INSERT INTO inventory_revise (revise_id, box_id, shoe_id, quantity, employ_id) VALUES ('$redate', '$box_id', '$shoe_id1', '$fquantity', '1');") or die($mysqli->error);
+	$resultnr = $mysqli->query("INSERT INTO inventory_revise (date, box_id, shoe_id, quantity, employ_id) VALUES (now(), '$box_id', '$shoe_id1', '$fquantity', '1');") or die($mysqli->error);
 	
 	if ($mysqli->query($resultnr) == TRUE) {
 	  echo $fquantity;
@@ -171,7 +144,7 @@ if (isset($_POST['brand5'])){
 	$color = $_POST['color3'];
 	$material = $_POST['material2'];
 	$box = $_POST['box1'];
-	$divStr1 = "<table class=\"table table-hover table-bordered\"><tr><th>active</th><th>date</th><th>quantity</th></tr>";
+	$divStr1 = "<table class=\"table table-hover table-bordered  table-condensed  table-striped\"><tr><th>active</th><th>date</th><th>quantity</th></tr>";
 	
 	//find shoe id
 	$shie_id2 = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.color = '$color' AND shoe.material = '$material' AND shoe.brand_id = '$brand';") or die($mysqli->error);
@@ -183,36 +156,24 @@ if (isset($_POST['brand5'])){
 	$pquantity2 = $mysqli->query("SELECT * FROM purchase WHERE purchase.shoe_id = '$shoe_id2' AND purchase.box_id = '$box';") or die($mysqli->error);
 	while($pq2=mysqli_fetch_assoc($pquantity2)){
 		//find date
-		$purdateid = $pq2['purchase_id'];
-		$purdate = $mysqli->query("SELECT DISTINCT purchase_date.date AS pdate FROM purchase_date WHERE purchase_date.id = $purdateid;") or die($mysqli->error);
-		while($pudate=mysqli_fetch_assoc($purdate)){
-			$pdate=$pudate['pdate'];
-		}
-		$divStr1 = $divStr1 . "<tr><td>" . 'purchase' . "</td><td>" .  $pdate . "</td><td>" .  $pq2['quantity'] . "</td></tr>";
+		$purdate = $pq2['date'];
+		$divStr1 = $divStr1 . "<tr><td>" . 'purchase' . "</td><td>" .  $purdate . "</td><td>" .  $pq2['quantity'] . "</td></tr>";
 	}	
 
 	//find quantity of sell
 	$squantity2 = $mysqli->query("SELECT * FROM sell WHERE sell.shoe_id = '$shoe_id2' AND sell.box_id = '$box';") or die($mysqli->error);
 	while($sq2=mysqli_fetch_assoc($squantity2)){
 		//find date
-		$selldateid = $sq2['sell_id'];
-		$selldate = $mysqli->query("SELECT DISTINCT sell_date.date AS sdate FROM sell_date WHERE sell_date.id = $selldateid;") or die($mysqli->error);
-		while($sedate=mysqli_fetch_assoc($selldate)){
-			$sdate=$sedate['sdate'];
-		}
-		$divStr1 = $divStr1 . "<tr><td>" . 'sell' . "</td><td>" .  $sdate . "</td><td>" .  $sq2['quantity'] . "</td></tr>";
+		$selldate = $sq2['date'];
+		$divStr1 = $divStr1 . "<tr><td>" . 'sell' . "</td><td>" .  $selldate . "</td><td>" .  $sq2['quantity'] . "</td></tr>";
 	}	
 
 	//find revise of sell
 	$rquantity2 = $mysqli->query("SELECT * FROM inventory_revise WHERE inventory_revise.shoe_id = '$shoe_id2' AND inventory_revise.box_id = '$box';") or die($mysqli->error);
 	while($rq2=mysqli_fetch_assoc($rquantity2)){
 		//find date
-		$revdateid = $rq2['revise_id'];
-		$revdate = $mysqli->query("SELECT DISTINCT inventory_revise_date.date AS rdate FROM inventory_revise_date WHERE inventory_revise_date.id = $revdateid;") or die($mysqli->error);
-		while($redate=mysqli_fetch_assoc($revdate)){
-			$rdate=$redate['rdate'];
-		}
-		$divStr1 = $divStr1 . "<tr><td>" . 'revise' . "</td><td>" .  $rdate . "</td><td>" .  $rq2['quantity'] . "</td></tr>";
+		$revdate = $rq2['date'];
+		$divStr1 = $divStr1 . "<tr><td>" . 'revise' . "</td><td>" .  $revdate . "</td><td>" .  $rq2['quantity'] . "</td></tr>";
 	}	
 	
 	$divStr1 = $divStr1 . "</table>";
