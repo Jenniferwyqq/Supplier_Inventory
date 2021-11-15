@@ -35,6 +35,7 @@
 						<th>MATERIAL</th>
 						<th>BOX</th>
 						<th>QUANTITY</th>
+						<th></th>
 					</tr>
 				</thead>
 				<div class="row">
@@ -82,7 +83,9 @@
 							</div>
 						</td>
 						<td>
-							<input type="text" class="col-xs-5" placeholder="Quantity" id="quantity">
+							<input type="text" class="col-md-6" placeholder="Quantity" id="quantity">
+						</td>
+						<td align="left">
 							<input type="button" class="btn btn-secondary" value="ADD" onclick="getInputValue()"> 
 						</td>
 					</tr>
