@@ -66,7 +66,7 @@ if (isset($_POST['brand4'])){
 	$quantity = $_POST['quantity'];
 	$selldate = $_POST['selldate'];
 	$id = "test";
-	$divStr = "<div class=\"container table table-bordered table table-hover table table-condensed\"><table class=\"table\"><tr  class=\"info\"><th>brand</th><th>style</th><th>color</th><th>material</th><th>box</th><th>quantity</th><th>edit</th></tr>";
+	$divStr = "<div class=\"container table table-bordered table table-hover table table-condensed table-striped\"><table class=\"table\"><tr  class=\"info\"><th>brand</th><th>style</th><th>color</th><th>material</th><th>box</th><th>quantity</th><th>edit</th></tr>";
 	$oldquantity=0;
 
 	//find shoe_id	
