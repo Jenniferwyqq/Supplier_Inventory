@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>MIX BACK</title>
+        <title>Mix-Back</title>
         <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
@@ -9,34 +9,23 @@
     <body>
         <?php require_once 'mixbackprocess.php'; ?>
         
-        <?php if (isset($_SESSION['message'])): ?>
-            <div class="alert alert-<?=$_SESSION['msg_type']?>">
-                <?php 
-                    echo $_SESSION['message']; 
-                    unset($_SESSION['message']);
-                ?>
-            </div>
-        <?php endif ?>
         <div class="container">
         <?php
             $mysqli = new mysqli('localhost','root','123','top_shoe') or die(mysqli_error($mysqli));
 			$resultbrand = $mysqli->query("SELECT DISTINCT brand.id AS brandid, brand.name AS brand FROM `brand` WHERE 1;") or die($mysqli->error);
 
-			$resultbox = $mysqli->query("SELECT DISTINCT box.name AS boxname FROM `box` WHERE 1") or die($mysqli->error);
-
         ?>
 		</div>
+		<div class="container table-responsive">
+			<div class="row justify-content-center">
+				<?php 
+					date_default_timezone_set('America/Los_Angeles');
+				?>
+				<label for="date">Mix Back Date</label>
+				<input type="date" id="date" name="date" value="<?php echo date("Y-m-d") ?>" min="2018-01-01" max="2030-12-31">
 
-		<div class="row justify-content-center">
-			<?php 
-				date_default_timezone_set('UTC');
-			?>
-			<label for="date">MIX BACK DATE</label>
-			<input type="date" id="date" name="date" value="<?php echo date("Y-m-d") ?>" min="2018-01-01" max="2030-12-31">
-
-		</div>
-		
-		<div class="row justify-content-center">
+			</div>
+			<div>
 			<table class="table">
 				<thead>
 					<tr>
@@ -46,9 +35,10 @@
 						<th>MATERIAL</th>
 						<th>SIZE</th>
 						<th>QUANTITY</th>
+						<th></th>
 					</tr>
 				</thead>
-				<div class="row justify-content-center">
+				<div class="row">
 					<tr>
 						<td>
 							<div>
@@ -65,7 +55,7 @@
 							</div>
 						</td>
 						<td>
-							<div>
+							<div">
 								<select id='name'>
 									<option>-----</option>
 								</select>
@@ -86,56 +76,60 @@
 							</div>
 						</td>
 						<td>
-							<input type="text" placeholder="Enter size" id="size">
-							<input type="text" placeholder="Enter quantity" id="quantity">
-							<input type="button" value="ADD" onclick="getInputValue()"> 
+							<input type="text" class="col-md-6" placeholder="Size" id="size">
+						</td>
+
+						<td>
+							<input type="text" class="col-md-6" placeholder="Quantity" id="quantity">
+						</td>
+						<td align="left">
+							<input type="button" class="btn btn-secondary" value="ADD" onclick="getInputValue()"> 
 						</td>
 					</tr>
 				</div>
 			</table>
+			</div>
+		</div>
+		<style>
+			.table-hover tbody tr:hover td {
+				background: #FEF878;
+			}
+		</style>
+		<div id="here">
 		</div>
 		
-		
-		
-		<script>
-function msg() {
-  alert("Hello world!");
-}
-</script>
-        
         <script>
 			$(document).on('change', '#brand', function(){
-				var brand = $('#brand :selected').val();//注意:selected前面有個空格！
+				var brand = $('#brand :selected').val();
 				$.ajax({
-					url:"mixbackprocess.php",				
+					url:"inventoryprocess.php",				
 					method:"POST",
 					data:{
 						brand:brand
 					},					
-					success:function(res){		
-					res = "<option>-----</option>" +res;
-					$('#name').html(res);
+					success:function(s_name){		
+					s_name = "<option>-----</option>" +s_name;
+					$('#name').html(s_name);
 					}
-				})//end ajax
+				})
 			});
 		</script>
-		
 		<script>
 			$(document).on('change', '#name', function(){				
 				var brand = $('#brand :selected').val();
 				var name = $('#name :selected').val();
 				$.ajax({
-					url:"mixbackprocess.php",				
+					url:"inventoryprocess.php",				
 					method:"POST",
 					data:{
 						brand1:brand,
 						name:name
 					},					
-					success:function(res1){		
-					res1 = "<option>-----</option>" +res1;					
-					$('#color').html(res1);
+					success:function(s_color){		
+					s_color = "<option>-----</option>" +s_color;					
+					$('#color').html(s_color);
 					}
-				})//end ajax
+				})
 			});
 		</script>
 		<script>
@@ -144,56 +138,91 @@ function msg() {
 				var name = $('#name :selected').val();
 				var color = $('#color :selected').val();
 				$.ajax({
-					url:"mixbackprocess.php",				
+					url:"inventoryprocess.php",				
 					method:"POST",
 					data:{
 						brand2:brand,
 						name1:name,
 						color:color
 					},					
-					success:function(res2){		
-					res2 = "<option>-----</option>" +res2;
-					$('#material').html(res2);
+					success:function(s_material){		
+					s_material = "<option>-----</option>" +s_material;
+					$('#material').html(s_material);
 					}
-				})//end ajax
+				})
 			});
 		</script>
-		 <script>
+		<script>
 			function getInputValue(){
-				// Selecting the input element and get its value 
 				var brand = $('#brand :selected').val();
 				var name = $('#name :selected').val();
 				var color = $('#color :selected').val();
 				var material = $('#material :selected').val();
 				var size = document.getElementById("size").value;
 				var quantity = document.getElementById("quantity").value;
-				var backdate = $('#date').val();
-				alert(backdate);
+				var mixbackdate = $('#date').val();
+				
 				$.ajax({
 					url:"mixbackprocess.php",				
 					method:"POST",
 					data:{
-						backdate:backdate,
 						brand4:brand,
 						name3:name,
 						color2:color,
 						material1:material,
 						size:size,
-						quantity:quantity
+						quantity:quantity,
+						mixbackdate:mixbackdate
 					},
-					//alert(backdate);
-					success:function(res4){		
-						alert(res4);
-						alert("Local sucess callback.");
+					success:function(divStr){		
+						alert("insert success");
+						document.getElementById("here").innerHTML = divStr;
 					},
-					error: function () {
+					error: function (divStr) {
 						alert("Local error callback.");
 					},
-					complete: function () {
-						alert("Local completion callback.");
+					complete: function (divStr) {
+						//alert("Local completion callback.");
 					}
-				})//end ajax
+				})
 			}
+		</script>
+		<script>
+			$("#here").on('click','.saveChanges',function(){
+				var yes = confirm('Are you sure？');
+				if (yes) {
+					var currentRow=$(this).closest("tr"); 
+					var brand=currentRow.find("td:eq(0)").text();
+					var name=currentRow.find("td:eq(1)").text();
+					var color=currentRow.find("td:eq(2)").text();
+					var material=currentRow.find("td:eq(3)").text();
+					var size=currentRow.find("td:eq(4)").text();
+					var quantity=currentRow.find("td:eq(5)").text();
+					var mixbackdate = $('#date').val();
+					$.ajax({
+						url:"mixbackprocess.php",
+						type:"POST",
+						data:{
+							brand5:brand,
+							name4:name,
+							color3:color,
+							material2:material,
+							size1:size,
+							quantity1:quantity,
+							mixbackdate1:mixbackdate
+						},
+						success:function(res){	
+							alert(res);
+						},
+						error: function () {
+							alert("Local error callback.");
+						},
+						complete: function () {
+							//alert("Local completion callback.");
+						}
+					});
+				}
+			});
 		</script>
     </body>
 </html>
