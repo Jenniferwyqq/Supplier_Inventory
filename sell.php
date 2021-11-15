@@ -90,6 +90,11 @@
 			</table>
 			</div>
 		</div>
+		<style>
+			.table-hover tbody tr:hover td {
+				background: #FEF878;
+			}
+		</style>
 		<div id="here">
 		</div>
 		
@@ -213,36 +218,39 @@
 		</script>
 		<script>
 				$("#here").on('click','.saveChanges',function(){
-				var currentRow=$(this).closest("tr"); 
-				var brand=currentRow.find("td:eq(0)").text();
-				var name=currentRow.find("td:eq(1)").text();
-				var color=currentRow.find("td:eq(2)").text();
-				var material=currentRow.find("td:eq(3)").text();
-				var box=currentRow.find("td:eq(4)").text();
-				var quantity=currentRow.find("td:eq(5)").text();
-				var selldate = $('#date').val();
-				$.ajax({
-					url:"sellprocess.php",
-					type:"POST",
-					data:{
-						brand5:brand,
-						name4:name,
-						color3:color,
-						material2:material,
-						box1:box,
-						quantity1:quantity,
-						selldate1:selldate
-					},
-					success:function(res){	
-						alert(res);
-					},
-					error: function () {
-						alert("Local error callback.");
-					},
-					complete: function () {
-						//alert("Local completion callback.");
-					}
-				});
+				var yes = confirm('Are you sure？');
+				if (yes) {
+					var currentRow=$(this).closest("tr"); 
+					var brand=currentRow.find("td:eq(0)").text();
+					var name=currentRow.find("td:eq(1)").text();
+					var color=currentRow.find("td:eq(2)").text();
+					var material=currentRow.find("td:eq(3)").text();
+					var box=currentRow.find("td:eq(4)").text();
+					var quantity=currentRow.find("td:eq(5)").text();
+					var selldate = $('#date').val();
+					$.ajax({
+						url:"sellprocess.php",
+						type:"POST",
+						data:{
+							brand5:brand,
+							name4:name,
+							color3:color,
+							material2:material,
+							box1:box,
+							quantity1:quantity,
+							selldate1:selldate
+						},
+						success:function(res){	
+							alert(res);
+						},
+						error: function () {
+							alert("Local error callback.");
+						},
+						complete: function () {
+							//alert("Local completion callback.");
+						}
+					});
+				}
 			});
 		</script>
     </body>
