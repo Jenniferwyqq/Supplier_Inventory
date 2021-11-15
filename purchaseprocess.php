@@ -67,7 +67,7 @@ if (isset($_POST['brand4'])){
 	$price = $_POST['price'];
 	$purchasedate = $_POST['purchasedate'];
 	$id = "test";
-	$divStr = "<div class=\"container table table-bordered table table-hover table table-condensed\"><table class=\"table\"><tr  class=\"info\"><th>brand</th><th>style</th><th>color</th><th>material</th><th>box</th><th>quantity</th><th>price</th><th>edit</th></tr>";
+	$divStr = "<div class=\"container table table-bordered table table-hover table table-condensed table-striped\"><table class=\"table\"><tr class=\"info\"><th>brand</th><th>style</th><th>color</th><th>material</th><th>box</th><th>quantity</th><th>price</th><th>edit</th></tr>";
 	$oldquantity=0;
 
 	//find shoe_id	
@@ -114,8 +114,7 @@ if (isset($_POST['brand4'])){
 				while($resbrand=mysqli_fetch_assoc($brandname)){
 					$hisbrand_name = $resbrand['name'];
 					$editbtn = "<button class=\"saveChanges\" id=\"$hisid\" onclick=\"editclick(this.id\")\">UPDATE</button>";
-					//$divStr = $divStr . "<tr><td>" . $hisbrand_name . "</td><td>" .  $his_name . "</td><td>" . $his_color . "</td><td>" . $his_material . "</td><td>" . $hisbox_name . "</td><td contenteditable=\"true\">" . $hisquantity . "</td><td contenteditable=\"true\">" . $hisprice . "</td><td>" . "updated success!" . "</td><td>" .  $editbtn . "</td></tr>";
-					$divStr = $divStr . "<tr><td>" . $hisbrand_name . "</td><td>" .  $his_name . "</td><td>" . $his_color . "</td><td>" . $his_material . "</td><td>" . $hisbox_name . "</td><td contenteditable=\"true\">" . $hisquantity . "</td><td contenteditable=\"true\">" . "$" . $hisprice . "</td><td>" .  $editbtn . "</td></tr>";
+					$divStr = $divStr . "<tr><td>" . $hisbrand_name . "</td><td>" .  $his_name . "</td><td>" . $his_color . "</td><td>" . $his_material . "</td><td>" . $hisbox_name . "</td><td contenteditable=\"true\">" . $hisquantity . "</td><td contenteditable=\"true\">" . $hisprice . "</td><td>" .  $editbtn . "</td></tr>";
 				}
 			}
 		}
