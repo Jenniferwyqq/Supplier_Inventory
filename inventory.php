@@ -14,31 +14,23 @@
     <body>
         <?php require_once 'inventoryprocess.php'; ?>
         
-        <?php if (isset($_SESSION['message'])): ?>
-            <div class="alert alert-<?php=$_SESSION['msg_type']?>">
-                <?php 
-                    echo $_SESSION['message']; 
-                    unset($_SESSION['message']);
-                ?>
-            </div>
-        <?php endif ?>
         <div class="container">
-        <?php
-            $mysqli = new mysqli('localhost','root','123','top_shoe') or die(mysqli_error($mysqli));
-			$resultbrand = $mysqli->query("SELECT DISTINCT brand.id AS brandid, brand.name AS brand FROM `brand` WHERE 1;") or die($mysqli->error);
-			
-			
-        ?>
+			<?php
+				$mysqli = new mysqli('localhost','root','123','top_shoe') or die(mysqli_error($mysqli));
+				$resultbrand = $mysqli->query("SELECT DISTINCT brand.id AS brandid, brand.name AS brand FROM `brand` WHERE 1;") or die($mysqli->error);
+				
+				
+			?>
 		</div>
-		
-		<div class="form-group">
-			<table class="table">
+		<div class="container">
+			<table id="main" class="table table-bordered">
 				<thead>
 					<tr>
 						<th>BRAND</th>
 						<th>STYLE</th>
 						<th>COLOR</th>
 						<th>MATERIAL</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tr>
@@ -78,20 +70,26 @@
 						</div>
 					</td>
 					<td>
-						<input type="button" value="SEARCH" class="btn btn-info" onclick="setdivcontent()"> 
+						<input type="button" class="btn btn-secondary" value="SEARCH" onclick="setdivcontent()"> 
 					</td>
 				</tr>
 			</table>
 		</div>
-		
-		<div class="table-responsive" id="here">
-		</div>
-		
-		<div class="table-responsive" id="view">
-		</div>
-
-
+		<style>
+			th {background:#b8def5}
+		</style>
+		<style>
+			.table-hover tbody tr:hover td {
+				background: #FEF878;
+			}
+		</style>
+		<div class="container" id="here">
 	
+		</div>
+		<div class="container" id="view">
+		</div>
+
+
         <script>
 			$(document).on('change', '#brand', function(){
 				var brand = $('#brand :selected').val();
@@ -164,7 +162,6 @@
 						material:material
 					},
 					success:function(divStr){	
-					
 						document.getElementById("here").innerHTML = divStr;
 					},
 					error: function (divStr) {
@@ -179,37 +176,38 @@
 		</script>
 		<script>
 			$("#here").on('click','.saveChanges',function(){
-				var currentRow=$(this).closest("tr"); 
-				var box=currentRow.find("td:eq(0)").text();
-				var content=currentRow.find("td:eq(1)").text(); // get current row 1st TD value
-				//alert(content);
-				//alert(box);
-				var brand = $('#brand :selected').val();
-				var name = $('#name :selected').val();
-				var color = $('#color :selected').val();
-				var material = $('#material :selected').val();
-				
-				$.ajax({
-					url:"inventoryprocess.php",
-					type:"POST",
-					data:{
-						brand4:brand,
-						name3:name,
-						color2:color,
-						material1:material,
-						box:box,
-						content:content
-					},
-					success:function(fquantity){	
-						alert(fquantity);
-					},
-					error: function (divStr1) {
-						alert("Local error callback.");
-					},
-					complete: function (divStr1) {
-						//alert("Local completion callback.");
-					}
-				});
+				var yes = confirm('Are you sure？');
+				if (yes) {
+					var currentRow=$(this).closest("tr"); 
+					var box=currentRow.find("td:eq(0)").text();
+					var content=currentRow.find("td:eq(1)").text(); // get current row 1st TD value
+					var brand = $('#brand :selected').val();
+					var name = $('#name :selected').val();
+					var color = $('#color :selected').val();
+					var material = $('#material :selected').val();
+					
+					$.ajax({
+						url:"inventoryprocess.php",
+						type:"POST",
+						data:{
+							brand4:brand,
+							name3:name,
+							color2:color,
+							material1:material,
+							box:box,
+							content:content
+						},
+						success:function(divStr1){	
+							alert("update success");
+						},
+						error: function (divStr1) {
+							alert("Local error callback.");
+						},
+						complete: function (divStr1) {
+							//alert("Local completion callback.");
+						}
+					});
+				}
 			});
 		</script>
 
@@ -230,8 +228,7 @@
 						material2:material,
 						box1:clicked_id
 					},
-					success:function(divStr1){	
-						
+					success:function(divStr1){		
 						document.getElementById("view").innerHTML = divStr1;
 					},
 					error: function (divStr1) {
