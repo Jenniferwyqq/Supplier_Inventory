@@ -84,9 +84,9 @@
 		<script>
 			function getInputValue(){
 				var brand = $('#brand :selected').val();
-				var name = document.getElementById("style").value;
-				var color = document.getElementById("color").value;							
-				var material = document.getElementById("material").value;
+				var name = document.getElementById('style').value;
+				var color = document.getElementById('color').value;							
+				var material = document.getElementById('material').value;
 
 				$.ajax({
 					url:"addshoeprocess.php",				
@@ -98,8 +98,14 @@
 						material:material
 					},
 					success:function(divStr){		
-						//alert(divStr);
-						document.getElementById("here").innerHTML = divStr;
+						if(divStr == "ERROR: item already exists in database") {
+							alert(divStr);
+						} else if (divStr == "Insert Success."){
+							alert(divStr);
+						} else {
+							document.getElementById("here").innerHTML = divStr;
+						}
+						
 					},
 					error: function (divStr) {
 						alert("Local error callback.");
@@ -113,12 +119,14 @@
 		<script>
 			function updateValue(){
 				var brand = $('#brand :selected').val();
-				var name = document.getElementById("style").value;
-				var color = document.getElementById("color").value;							
-				var material = document.getElementById("material").value;
-				var shoeDTable = document.getElementById("shoedimension");
-				alert("HI");
-				/*
+				var name = document.getElementById('style').value;
+				var color = document.getElementById('color').value;							
+				var material = document.getElementById('material').value;
+				var shoeDTable = document.getElementById('shoedimension');
+				var rowLength = shoeDTable.rows.length;	
+				var insertSQL = 'INSERT INTO shoe_dimension(shoe_id, size, length, width, height, weight) VALUES';
+
+				var shoe_id = "no";
 				$.ajax({
 					url:"addshoeprocess.php",				
 					method:"POST",
@@ -127,19 +135,43 @@
 						name1:name,
 						color1:color,
 						material1:material,
-						shoeDTable=shoeDTable
 					},
-					success:function(result){		
-						alert(result);
-						document.getElementById("here").innerHTML = divStr;
+					success:function(shoe_idphp){		
+						shoe_id = shoe_idphp;
+						for (var i = 1; i < rowLength; i++) {
+							//gets cells of current row
+							var oCells = shoeDTable.rows.item(i).cells;
+							var size = oCells.item(0).innerHTML;
+							var length = oCells.item(1).innerHTML;
+							var width = oCells.item(2).innerHTML;
+							var height = oCells.item(3).innerHTML;
+							var weight = oCells.item(4).innerHTML;
+							size = size.replace(/[^\d.-]/g, '');
+							length = length.replace(/[^\d.-]/g, '');
+							width = width.replace(/[^\d.-]/g, '');
+							height = height.replace(/[^\d.-]/g, '');
+							weight = weight.replace(/[^\d.-]/g, '');
+							
+							insertSQL += ' (' + shoe_id + ', ' + size + ', ' + length + ', ' + width + ', ' + height + ', ' + weight + '),';
+						}
+
+						insertSQL = insertSQL.substring(0, insertSQL.length - 1);
+						insertSQL += ';';
+						
+						$.ajax({
+							url:"addshoeprocess.php",				
+							method:"POST",
+							data:{
+								insertSQL:insertSQL
+							},
+							success:function(final1){		
+								alert(final1);
+							},
+						});
 					},
-					error: function (result) {
-						alert("Local error callback.");
-					},
-					complete: function (result) {
-						//alert("Local completion callback.");
-					}
-				});*/
+				});
+						
+				
 			}
 		</script>
     </body>
