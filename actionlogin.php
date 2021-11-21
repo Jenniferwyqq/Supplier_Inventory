@@ -1,5 +1,6 @@
 <?php
 	
+session_start();
 $mysqli = new mysqli('localhost','root','123','top_shoe') or die(mysqli_error($mysqli));	
 
 $username = $_POST['username'];
@@ -18,8 +19,12 @@ else
     if(mysqli_num_rows($result) == 1){
 		$row = $result->fetch_assoc();
 		if($password == $row['user_pass']){
-			header('Location: box.php');
+			$_SESSION['message'] = "Welcome, Top Shoe!";
+			$_SESSION['msg_type'] = "success";
+			header('Location: main.php');
 		} else {
+			$_SESSION['message'] = "Incorrect password, please try again!";
+			$_SESSION['msg_type'] = "danger";
 			header('Location: index.php');
 		}
 	} else {
