@@ -4,41 +4,44 @@ $mysqli = new mysqli('localhost', 'root', '123', 'top_shoe') or die(mysqli_error
 	
 if (isset($_POST['brand'])){
 	$brand = $_POST['brand'];
+	$name = "";
 	$shoe_name = $mysqli->query("SELECT DISTINCT shoe.name AS name FROM shoe WHERE shoe.brand_id = '$brand';") or die($mysqli->error);
-	$s_name = "";
-	while($sname=mysqli_fetch_assoc($shoe_name)){
-	   $s_name .= "
-			<option value='{$sname["name"]}'>{$sname['name']}</option>
+	
+	while($data1=mysqli_fetch_assoc($shoe_name)){
+	   $name .= "
+			<option value='{$data1["name"]}'>{$data1['name']}</option>
 	   ";
 	};
-	echo $s_name;
+	echo $name;
 }
 
 if (isset($_POST['name'])){
 	$brand = $_POST['brand1'];
 	$name = $_POST['name'];
+	$color = "";
 	$shoe_color = $mysqli->query("SELECT DISTINCT shoe.color AS color FROM shoe WHERE shoe.name = '$name' AND shoe.brand_id = '$brand';") or die($mysqli->error);
-	$s_color = "";
-	while($scolor=mysqli_fetch_assoc($shoe_color)){
-	   $s_color .= "
-		  <option value='{$scolor["color"]}'>{$scolor['color']}</option>
+	
+	while($data2=mysqli_fetch_assoc($shoe_color)){
+	   $color .= "
+		  <option value='{$data2["color"]}'>{$data2['color']}</option>
 	   ";
 	};
-	echo $s_color;
+	echo $color;
 }
 
 if (isset($_POST['color'])){
 	$brand = $_POST['brand2'];
 	$name = $_POST['name1'];
 	$color = $_POST['color'];
+	$material = "";
 	$shoe_material = $mysqli->query("SELECT DISTINCT shoe.material AS material FROM shoe WHERE shoe.brand_id = '$brand' AND shoe.name = '$name' AND shoe.color = '$color';") or die($mysqli->error);
-	$s_material = "";
-	while($smaterial=mysqli_fetch_assoc($shoe_material)){
-	   $s_material .= "
-		  <option value='{$smaterial["material"]}'>{$smaterial['material']}</option>
+	
+	while($data3=mysqli_fetch_assoc($shoe_material)){
+	   $material .= "
+		  <option value='{$data3["material"]}'>{$data3['material']}</option>
 	   ";
 	};
-	echo $s_material;
+	echo $material;
 }
 
 if (isset($_POST['material'])){
@@ -46,18 +49,28 @@ if (isset($_POST['material'])){
 	$name = $_POST['name2'];
 	$color = $_POST['color1'];
 	$material = $_POST['material'];
+	$shoe_id = 0;
 	$shoe_box = $mysqli->query("SELECT DISTINCT box.id AS boxid, box.name AS box FROM box WHERE box.brand_id = '$brand';") or die($mysqli->error);
 
-	$s_box = "";//把準備回傳的變數res準備好
+	$box = "";
 	while($sbox=mysqli_fetch_assoc($shoe_box)){
-	   $s_box .= "
+	   $box .= "
 		  <option value='{$sbox["boxid"]}'>{$sbox['box']}</option>
 	   ";
 	};
-	echo $s_box;
+	
+	//find shoe_id	
+	$shio_id = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.color = '$color' AND shoe.material = '$material' AND shoe.brand_id = '$brand';") or die($mysqli->error);
+	while($sid=mysqli_fetch_assoc($shio_id)){
+		$shoe_id=$sid['sid'];
+	}
+
+	echo json_encode(array($box, $shoe_id));
+
 }
 
 if (isset($_POST['brand4'])){
+	$shoe_id = $_POST['shoe_id'];
 	$brand = $_POST['brand4'];
 	$name = $_POST['name3'];
 	$color = $_POST['color2'];
@@ -67,14 +80,19 @@ if (isset($_POST['brand4'])){
 	$price = $_POST['price'];
 	$purchasedate = $_POST['purchasedate'];
 	$id = "test";
-	$divStr = "<div class=\"container table table-bordered table table-hover table table-condensed table-striped\"><table class=\"table\"><tr class=\"info\"><th>brand</th><th>style</th><th>color</th><th>material</th><th>box</th><th>quantity</th><th>price</th><th>edit</th></tr>";
+	$divStr = "<p>Purchase History in " . $purchasedate . " </p>
+		<table class=\"table table-bordered table-hover\">
+			<tr class=\"info\">
+				<th>brand</th>
+				<th>style</th>
+				<th>color</th>
+				<th>material</th>
+				<th>box</th>
+				<th>quantity</th>
+				<th>price</th>
+				<th></th>
+			</tr>";
 	$oldquantity=0;
-
-	//find shoe_id	
-	$shie_id = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.color = '$color' AND shoe.material = '$material' AND shoe.brand_id = '$brand';") or die($mysqli->error);
-	while($sid=mysqli_fetch_assoc($shie_id)){
-		$shoe_id=$sid['sid'];
-	}
 
 	//find if row already exist in purchase, update the quantity
 	$check_purchase = $mysqli->query("SELECT * FROM purchase WHERE purchase.date = '$purchasedate' AND purchase.box_id = '$box' AND purchase.shoe_id = '$shoe_id' AND unit_price = '$price';") or die($mysqli->error);
@@ -119,36 +137,27 @@ if (isset($_POST['brand4'])){
 			}
 		}
     }
-
-	$divStr = $divStr . "</table></div>";
+	$divStr = $divStr . "</table>";
 	echo $divStr;
-	
 }
 
 if (isset($_POST['brand5'])){
+	$shoe_id1 = $_POST['shoe_id1'];
 	$brand = $_POST['brand5'];
-	$name = $_POST['name4'];
-	$color = $_POST['color3'];
-	$material = $_POST['material2'];
 	$box = $_POST['box1'];
 	$quantity = $_POST['quantity1'];
 	$price = $_POST['price1'];
 	$purchasedate = $_POST['purchasedate1'];
-	$shoe_id1 = '';
 	$box_id1 = '';
 	$brand_id1 = '';
-	$res = "fail";
+	$res = "FAIL";
 
 	//find brand_id	
 	$brandid = $mysqli->query("SELECT DISTINCT brand.id AS brid FROM brand WHERE brand.name = '$brand';") or die($mysqli->error);
 	while($br_id=mysqli_fetch_assoc($brandid)){
 		$brand_id1=$br_id['brid'];
 	}
-	//find shoe_id	
-	$shoeid = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.color = '$color' AND shoe.material = '$material' AND shoe.brand_id = '$brand_id1';") or die($mysqli->error);
-	while($s_id=mysqli_fetch_assoc($shoeid)){
-		$shoe_id1=$s_id['sid'];
-	}
+	
 	//find box_id	
 	$boxid = $mysqli->query("SELECT DISTINCT box.id AS bid FROM box WHERE box.name = '$box' AND box.brand_id = '$brand_id1';") or die($mysqli->error);
 	while($b_id=mysqli_fetch_assoc($boxid)){
@@ -156,8 +165,8 @@ if (isset($_POST['brand5'])){
 	}
 	
 	$update_purchased = $mysqli->query("UPDATE purchase SET quantity = '$quantity', unit_price = '$price' WHERE purchase.shoe_id = '$shoe_id1' AND purchase.box_id = '$box_id1' AND purchase.date = '$purchasedate';") or die($mysqli->error);
-	if($update_purchased ==true){
-		$res = "update success";
+	if($update_purchased == true){
+		$res = "UPDATE SUCCESS!!";
 	}
 	echo $res;
 }	
