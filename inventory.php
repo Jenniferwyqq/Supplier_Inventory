@@ -12,8 +12,8 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <?php require_once 'inventoryprocess.php'; ?>
-		<?php
+        <?php 
+			require_once 'inventoryprocess.php'; 
 			$mysqli = new mysqli('localhost','root','123','top_shoe') or die(mysqli_error($mysqli));
 			$resultbrand = $mysqli->query("SELECT DISTINCT brand.id AS brandid, brand.name AS brand FROM `brand` WHERE 1;") or die($mysqli->error);
 		?>
@@ -188,7 +188,7 @@
 					},
 					error: function (divStr) {
 						alert("Local error callback.");
-					},
+					}
 				})
 			}
 		</script>
@@ -215,7 +215,7 @@
 						},
 						error: function (divStr1) {
 							alert("Local error callback.");
-						},
+						}
 					});
 				}
 			});
@@ -252,7 +252,7 @@
 					},
 					error: function (array) {
 						alert("Local error callback.");
-					},
+					}
 				})
 			}
 		</script>
