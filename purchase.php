@@ -7,97 +7,104 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
     </head>
     <body>
-        <?php require_once 'purchaseprocess.php'; ?>
-        
-        <div class="container">
-        <?php
+        <?php require_once 'purchaseprocess.php'; 
             $mysqli = new mysqli('localhost','root','123','top_shoe') or die(mysqli_error($mysqli));
 			$resultbrand = $mysqli->query("SELECT DISTINCT brand.id AS brandid, brand.name AS brand FROM `brand` WHERE 1;") or die($mysqli->error);
-
         ?>
 		</div>
-		<div class="container table-responsive">
+		<div class="container">
 			<div class="row justify-content-center">
 				<?php 
 					date_default_timezone_set('America/Los_Angeles');
 				?>
-				<label for="date">Purchase Date</label>
+				<label for="date">Purchase Date:</label>
+				<div class = "space">   </div>   
 				<input type="date" id="date" name="date" value="<?php echo date("Y-m-d") ?>" min="2018-01-01" max="2030-12-31">
-
 			</div>
-			<div>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>BRAND</th>
-						<th>STYLE</th>
-						<th>COLOR</th>
-						<th>MATERIAL</th>
-						<th>BOX</th>
-						<th>QUANTITY | PRICE</th>
-					</tr>
-				</thead>
-				<div class="row">
-					<tr>
-						<td>
-							<div>
-								<select id='brand'>
-									<option>-----</option>
-									<?php
-									while($data=mysqli_fetch_assoc($resultbrand)){
-									?>
-										  <option value="<?php echo $data['brandid'];?>"><?php echo $data['brand'];?></option>
-									<?php
-									}
-									?>
-								</select>
-							</div>
-						</td>
-						<td>
-							<div">
-								<select id='name'>
-									<option>-----</option>
-								</select>
-							</div>
-						</td>
-						<td>
-							<div>
-								<select id='color'>
-									<option>-----</option>
-								</select>
-							</div>
-						</td>
-						<td>
-							<div>
-								<select id='material'>
-									<option>-----</option>
-								</select>
-							</div>
-						</td>
-						<td>
-							<div>
-								<select id='box'>
-									<option>-----</option>
-								</select>
-							</div>
-						</td>
-						<td>
-							<input type="text" class="col-sm-4" placeholder="Quantity" id="quantity">
-							<input type="text" class="col-sm-4" placeholder="Price" id="price">
-							<input type="button" class="btn btn-secondary" value="ADD" onclick="getInputValue()"> 
-						</td>
-					</tr>
-				</div>
-			</table>
+			<div class="row justify-content-center">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>BRAND</th>
+							<th>STYLE</th>
+							<th>COLOR</th>
+							<th>MATERIAL</th>
+							<th>BOX</th>
+							<th>QUANTITY | PRICE</th>
+						</tr>
+					</thead>
+					<div class="row">
+						<tr>
+							<td>
+								<div>
+									<select id='brand'>
+										<option>-----</option>
+										<?php
+										while($data=mysqli_fetch_assoc($resultbrand)){
+										?>
+											<option value="<?php echo $data['brandid'];?>"><?php echo $data['brand'];?></option>
+										<?php
+										}
+										?>
+									</select>
+								</div>
+							</td>
+							<td>
+								<div>
+									<select id='name'>
+										<option>-----</option>
+									</select>
+								</div>
+							</td>
+							<td>
+								<div>
+									<select id='color'>
+										<option>-----</option>
+									</select>
+								</div>
+							</td>
+							<td>
+								<div>
+									<select id='material'>
+										<option>-----</option>
+									</select>
+								</div>
+							</td>
+							<td>
+								<div>
+									<select id='box'>
+										<option>-----</option>
+									</select>
+								</div>
+							</td>
+							<td>
+								<input type="text" class="col-sm-4" placeholder="Quantity" id="quantity">
+								<input type="text" class="col-sm-4" placeholder="Price" id="price">
+								<input type="hidden" id="shoeID" name="shoeID" value="0">
+								<input type="button" class="btn btn-secondary" value="ADD" onclick="getInputValue()"> 
+							</td>
+						</tr>
+					</div>
+				</table>
 			</div>
+			<div class="row" id="here">
+				
+			</div>
+		</div>
+			
 		<style>
+			.space {white-space:pre}
+			
+			th {background:#b8def5}
+		
 			.table-hover tbody tr:hover td {
 				background: #FEF878;
 			}
+			
+			.here{
+				table-layout:fixed;
+			}
 		</style>
-		</div>
-		<div id="here">
-		</div>
 		
         <script>
 			$(document).on('change', '#brand', function(){
@@ -108,9 +115,9 @@
 					data:{
 						brand:brand
 					},					
-					success:function(s_name){		
-					s_name = "<option>-----</option>" +s_name;
-					$('#name').html(s_name);
+					success:function(name){		
+					name = "<option>-----</option>" + name;
+					$('#name').html(name);
 					}
 				})
 			});
@@ -126,9 +133,9 @@
 						brand1:brand,
 						name:name
 					},					
-					success:function(s_color){		
-					s_color = "<option>-----</option>" +s_color;					
-					$('#color').html(s_color);
+					success:function(color){		
+					color = "<option>-----</option>" + color;					
+					$('#color').html(color);
 					}
 				})
 			});
@@ -146,9 +153,9 @@
 						name1:name,
 						color:color
 					},					
-					success:function(s_material){		
-					s_material = "<option>-----</option>" +s_material;
-					$('#material').html(s_material);
+					success:function(material){		
+					material = "<option>-----</option>" + material;
+					$('#material').html(material);
 					}
 				})
 			});
@@ -169,21 +176,21 @@
 						color1:color,
 						material:material
 					},					
-					success:function(s_box){		
-						s_box = "<option>-----</option>" +s_box;					
-						$('#box').html(s_box);
+					success:function(array){	
+						var result = $.parseJSON(array);
+						document.getElementById("shoeID").value = result[1];
+						result[0] = "<option>-----</option>" + result[0];				
+						$('#box').html(result[0]);
 					},
-					error: function (s_box) {
+					error: function () {
 						alert("Local error callback.");
-					},
-					complete: function (s_box) {
-						//alert("Local completion callback.");
 					}
-				})//end ajax
+				})
 			});
 		</script>
 		<script>
 			function getInputValue(){
+				var shoe_id = document.getElementById("shoeID").value;
 				var brand = $('#brand :selected').val();
 				var name = $('#name :selected').val();
 				var color = $('#color :selected').val();
@@ -197,6 +204,7 @@
 					url:"purchaseprocess.php",				
 					method:"POST",
 					data:{
+						shoe_id:shoe_id,
 						brand4:brand,
 						name3:name,
 						color2:color,
@@ -207,14 +215,11 @@
 						purchasedate:purchasedate
 					},
 					success:function(divStr){		
-						alert("insert success");
+						alert("INSERT SUCCESS!!");
 						document.getElementById("here").innerHTML = divStr;
 					},
 					error: function (divStr) {
 						alert("Local error callback.");
-					},
-					complete: function (divStr) {
-						//alert("Local completion callback.");
 					}
 				})
 			}
@@ -223,6 +228,7 @@
 				$("#here").on('click','.saveChanges',function(){
 				var yes = confirm('Are you sure？');
 				if (yes) {
+					var shoe_id = document.getElementById("shoeID").value;
 					var currentRow=$(this).closest("tr"); 
 					var brand=currentRow.find("td:eq(0)").text();
 					var name=currentRow.find("td:eq(1)").text();
@@ -237,10 +243,8 @@
 						url:"purchaseprocess.php",
 						type:"POST",
 						data:{
+							shoe_id1:shoe_id,
 							brand5:brand,
-							name4:name,
-							color3:color,
-							material2:material,
 							box1:box,
 							quantity1:quantity,
 							price1:price,
@@ -251,9 +255,6 @@
 						},
 						error: function () {
 							alert("Local error callback.");
-						},
-						complete: function () {
-							//alert("Local completion callback.");
 						}
 					});
 				}
