@@ -180,7 +180,8 @@ if (isset($_POST['brand5'])){
 	$divStr3 = "
 	<button class=\"btn btn-info\" id=\"purchase\">Purchase</button>
 	<button class=\"btn btn-info\" id=\"sell\">Sell</button>
-	<button class=\"btn btn-info\"  id=\"revise\">Revise</button>";
+	<button class=\"btn btn-info\"  id=\"revise\">Revise</button>
+	</div>";
 
 	echo json_encode(array($divStr, $divStr1, $divStr2, $divStr3));
 }
