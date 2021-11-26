@@ -1,156 +1,265 @@
-<?php
-
-session_start();
-$mysqli = new mysqli('localhost', 'root', '123', 'top_shoe') or die(mysqli_error($mysqli));
-
-
-	
-if (isset($_POST['brand'])){
-	$brand = $_POST['brand'];
-	$shoe_name = $mysqli->query("SELECT DISTINCT shoe.name AS name FROM shoe WHERE shoe.brand_id = '$brand';") or die($mysqli->error);
-
-	$shoename = "";
-	while($data=mysqli_fetch_assoc($shoe_name)){
-	   $shoename .= "
-			<option value='{$data["name"]}'>{$data['name']}</option>
-	   ";
-	};
-	echo $shoename;
-}
-
-if (isset($_POST['name'])){
-	$brand = $_POST['brand1'];
-	$name = $_POST['name'];
-	$shoe_color = $mysqli->query("SELECT DISTINCT shoe.color AS color FROM shoe WHERE shoe.name = '$name' AND shoe.brand_id = '$brand';") or die($mysqli->error);
-
-	$shoecolor = "";
-	while($data1=mysqli_fetch_assoc($shoe_color)){
-	   $shoecolor .= "
-		  <option value='{$data1["color"]}'>{$data1['color']}</option>
-	   ";
-	};
-	echo $shoecolor;
-}
-
-if (isset($_POST['color'])){
-	$brand = $_POST['brand2'];
-	$name = $_POST['name1'];
-	$color = $_POST['color'];
-	$shoe_material = $mysqli->query("SELECT DISTINCT shoe.material AS material FROM shoe WHERE shoe.brand_id = '$brand' AND shoe.name = '$name' AND shoe.color = '$color';") or die($mysqli->error);
-
-	$shoematerial = "";
-	while($data2=mysqli_fetch_assoc($shoe_material)){
-	   $shoematerial .= "
-		  <option value='{$data2["material"]}'>{$data2['material']}</option>
-	   ";
-	};
-	echo $shoematerial;
-}
-
-//display info
-if (isset($_POST['material'])){
-	$brand = $_POST['brand3'];
-	$name = $_POST['name2'];
-	$color = $_POST['color1'];
-	$material = $_POST['material'];
-	$shoe_id = 0;
-	$search_shoe1 = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.brand_id = '$brand' AND shoe.color = '$color' AND shoe.material = '$material';") or die($mysqli->error);
-	while($data2=mysqli_fetch_assoc($search_shoe1)){
-		$shoe_id = $data2['sid'];
-	}	
-	
-	//shoe_dimensino_table
-	$divStr = "<table id=\"shoetable\" class=\"table table-hover table-bordered table-condensed table-striped\"><tr><th>size</th><th>length</th><th>width</th><th>height</th><th>weight</th><th></th></tr>";
-	$dimension = $mysqli->query("SELECT * FROM shoe_dimension WHERE shoe_dimension.shoe_id = '$shoe_id';") or die($mysqli->error);
-	$dimension->fetch_assoc();
-	
-	while ($row = $dimension->fetch_assoc()){
-		$size = $row['size'];
-		$length = $row['length'];
-		$width = $row['width'];
-		$height = $row['height'];
-		$weight = $row['weight'];
-		$editbtn = "<button class=\"saveChanges\" id=\"$size\" onclick=\"editclick(this);\">UPDATE</button>";
-		$divStr = $divStr . "<tr id\"$size\"><td>" . $size . "</td><td contenteditable=\"true\">" .  $length . "</td><td contenteditable=\"true\">" .  $width . "</td><td contenteditable=\"true\">" .  $height . "</td><td contenteditable=\"true\">" .  $weight . "</td><td>" .  $editbtn . "</td></tr>";
-	}
-	$divStr = $divStr . "</table>";
-	
-	//box_dimensino_table
-	$divStr1 = "<table id=\"boxtable\" class=\"table table-hover table-bordered table-condensed table-striped\"><tr><th>box</th><th>length</th><th>width</th><th>height</th><th>weight</th><th></th></tr>";
-	$dimension1 = $mysqli->query("SELECT * FROM box_dimension WHERE box_dimension.shoe_id = '$shoe_id';") or die($mysqli->error);
-	
-	while ($row1 = $dimension1->fetch_assoc()){
-		$box = $row1['box_id'];
-		$length = $row1['length'];
-		$width = $row1['width'];
-		$height = $row1['height'];
-		$weight = $row1['weight'];
-		$editbtn = "<button class=\"hasChanges\" id=\"$box\" onclick=\"editclick(this.id)\">UPDATE</button>";
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Inventory</title>
+        <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <?php 
+			require_once 'inventoryprocess.php'; 
+			$mysqli = new mysqli('localhost','root','123','top_shoe') or die(mysqli_error($mysqli));
+			$resultbrand = $mysqli->query("SELECT DISTINCT brand.id AS brandid, brand.name AS brand FROM `brand` WHERE 1;") or die($mysqli->error);
+		?>
+		<div class="container">
+			<div class="row row justify-content-center">
+				<h3> Inventory </h3>
+			</div>
+			<div class="row">
+				<table id="main" class="table table-bordered">
+					<thead>
+						<tr>
+							<th>BRAND</th>
+							<th>STYLE</th>
+							<th>COLOR</th>
+							<th>MATERIAL</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tr>
+						<td>
+							<div>
+								<select id='brand'>
+									<option>-----</option>
+									<?php
+									while($data=mysqli_fetch_assoc($resultbrand)){
+									?>
+										  <option value="<?php echo $data['brandid'];?>"><?php echo $data['brand'];?></option>
+									<?php
+									}
+									?>
+								</select>
+							</div>
+						</td>
+						<td>
+							<div>
+								<select id='name'>
+									<option>-----</option>
+								</select>
+							</div>
+						</td>
+						<td>
+							<div>
+								<select id='color'>
+									<option>-----</option>
+								</select>
+							</div>
+						</td>
+						<td>
+							<div>
+								<select id='material'>
+									<option>-----</option>
+								</select>
+							</div>
+						</td>
+						<td>
+							<input type="hidden" id="shoeID" name="shoeID" value="0">
+							<input type="button" class="btn btn-secondary" value="SEARCH" onclick="setdivcontent()"> 
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div class="row">
+				<div class="col-5">
+					<div id="here"></div>
+				</div>
+				<div class="col-7">
+					<div class="row">
+						<div id ="view"></div>
+					</div>
+					<div class="row">
+						<div id="display"></div>
+					</div>
+				</div>
+			</div>
+		</div>
 		
-		$boxname = $mysqli->query("SELECT DISTINCT box.name AS bname FROM box WHERE box.id = '$box';") or die($mysqli->error);
-		while ($row2 = $boxname->fetch_assoc()){
-			$box_name = $row2['bname'];
-		}
-		$divStr1 = $divStr1 . "<tr><td>" . $box_name . "</td><td contenteditable=\"true\">" .  $length . "</td><td contenteditable=\"true\">" .  $width . "</td><td contenteditable=\"true\">" .  $height . "</td><td contenteditable=\"true\">" .  $weight . "</td><td>" .  $editbtn . "</td></tr>";
-	}
-	$divStr1 = $divStr1 . "</table>";
-	
-	$divStr2 = "
-	<div>
-		<h3> Select File To Upload </h3>
-		<form method='post' action='' enctype='multipart/form-data'>
-			<input type='file' name='image' ><br>
-			<input type=\"hidden\" id=\"shoe_id\" name=\"shoe_id\" value=\"". $shoe_id ."\">
-			<input type='submit' value='Upload Image' name='upload'>  
-		</form>
-	<div class=\"row\">
-	<table border=\"2\">
-		<tr>
-			<td>No.</td>
-			<td>Images</td>
-		</tr>";
-	$no = 1;
-	$records = mysqli_query($mysqli,"select * from photo WHERE photo.shoe_id = $shoe_id "); 
-	while($data3 = mysqli_fetch_array($records)){
-		$path = "image/" . $data3['image'];
+		<style>
+			th {background:#b8def5}
+			
+			.table-hover tbody tr:hover td {
+				background: #C8BFE7;
+			}
 		
-		$photo = "<img style=\"max-height: 400px ;max-width: 500px\" src= '" . $path . "' >";
-		$divStr2 = $divStr2 . "<tr><td>" . $no . "</td><td>" . $photo . "</td></tr>";
-		$no++;
-	}
-	$divStr2 = $divStr2 . "</table></div>";
-	
+			.table-hover1 tbody tr:hover td {
+				background: #FEF878;
+			}
+			
+			.table{
+				table-layout:fixed;
+			}
+						
+			/* Add a background color on hover */
+			.view:hover {
+			  background-color: #3e8e41;
+			}
+			
+			/* Add a background color on hover */
+			.btn-group button:hover {
+				background-color: #5f89b9;
+			}
+		</style>
 
-	echo json_encode(array($divStr, $divStr1, $divStr2, $shoe_id));
-}
+        <script>
+			$(document).on('change', '#brand', function(){
+				var brand = $('#brand :selected').val();
+				$.ajax({
+					url:"inventoryprocess.php",				
+					method:"POST",
+					data:{
+						brand:brand
+					},					
+					success:function(name){		
+					name = "<option>-----</option>" + name;
+					$('#name').html(name);
+					}
+				})
+			});
+		</script>
+		<script>
+			$(document).on('change', '#name', function(){				
+				var brand = $('#brand :selected').val();
+				var name = $('#name :selected').val();
+				$.ajax({
+					url:"inventoryprocess.php",				
+					method:"POST",
+					data:{
+						brand1:brand,
+						name:name
+					},					
+					success:function(color){		
+					color = "<option>-----</option>" +color;					
+					$('#color').html(color);
+					}
+				})
+			});
+		</script>
+		<script>
+			$(document).on('change', '#color', function(){
+				var brand = $('#brand :selected').val();
+				var name = $('#name :selected').val();
+				var color = $('#color :selected').val();
+				$.ajax({
+					url:"inventoryprocess.php",				
+					method:"POST",
+					data:{
+						brand2:brand,
+						name1:name,
+						color:color
+					},					
+					success:function(material){		
+					material = "<option>-----</option>" + material;
+					$('#material').html(material);
+					}
+				})
+			});
+		</script>
+		 <script>
+			function setdivcontent(){
+				var brand = $('#brand :selected').val();
+				var name = $('#name :selected').val();
+				var color = $('#color :selected').val();
+				var material = $('#material :selected').val();
+				$.ajax({
+					url:"inventoryprocess.php",				
+					method:"POST",
+					data:{
+						brand3:brand,
+						name2:name,
+						color1:color,
+						material:material
+					},
+					success:function(array){	
+						var result = $.parseJSON(array);
+						document.getElementById("shoeID").value = result[1];
+						document.getElementById("here").innerHTML = result[0];
+					},
+					error: function (divStr) {
+						alert("Local error callback.");
+					}
+				})
+			}
+		</script>
+		<script>
+			$("#here").on('click','.saveChanges',function(){
+				var yes = confirm('Are you sure？');
+				if (yes) {
+					var currentRow=$(this).closest("tr"); 
+					var box_name=currentRow.find("td:eq(0)").text();
+					var content=currentRow.find("td:eq(1)").text(); 
+					var shoe_id = document.getElementById("shoeID").value;
+					var brand_id = $('#brand :selected').val();
+					$.ajax({
+						url:"inventoryprocess.php",
+						type:"POST",
+						data:{
+							shoe_id:shoe_id,
+							brand4:brand_id,
+							box:box_name,
+							content:content
+						},
+						success:function(divStr1){	
+							alert(divStr1);
+						},
+						error: function (divStr1) {
+							alert("Local error callback.");
+						}
+					});
+				}
+			});
+		</script>
 
-//update shoe_dimension
-if (isset($_POST['size'])){
-	$brand = $_POST['brand4'];
-	$name = $_POST['name3'];
-	$color = $_POST['color2'];
-	$material = $_POST['material1'];
-	$size = $_POST['size'];
-	$length = $_POST['length'];
-	$width = $_POST['width'];
-	$height = $_POST['height'];
-	$weight = $_POST['weight'];
-	$result = "FAIL!";
-	//find shoe id
-	$search_shoe2 = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.color = '$color' AND shoe.material = '$material' AND shoe.brand_id = '$brand';") or die($mysqli->error);
-	while($data4=mysqli_fetch_assoc($search_shoe2)){
-        $shoe_id1=$data4['sid'];
-    }
-	
-	$update_dimension = $mysqli->query("UPDATE shoe_dimension SET shoe_dimension.length = '$length', shoe_dimension.width = '$width', shoe_dimension.height = '$height', shoe_dimension.weight = '$weight' WHERE shoe_dimension.shoe_id = '$shoe_id1' AND shoe_dimension.size = '$size';") or die($mysqli->error);
-	if($update_dimension==true){
-		$result = "UPDATE SUCCESS!";
-	}
-	echo $result;
-}
-
-
-
-
-
-?>
+		<script>
+			function detailclick(clicked_id){
+				var shoe_id = document.getElementById("shoeID").value;
+				var brand = $('#brand :selected').val();
+				$.ajax({
+					url:"inventoryprocess.php",				
+					method:"POST",
+					data:{
+						shoe_id1:shoe_id,
+						brand5:brand,
+						box1:clicked_id
+					},
+					success:function(array){		
+						var result = $.parseJSON(array);
+						document.getElementById("view").innerHTML = result[3];
+						document.getElementById("display").innerHTML = result[0];
+						const shoebtn = document.getElementById("purchase");
+						const boxbtn = document.getElementById("sell");
+						const photobtn = document.getElementById("revise");
+						shoebtn.onclick = function () {
+						 	document.getElementById("display").innerHTML = result[0];
+						};
+						boxbtn.onclick = function () {
+							document.getElementById("display").innerHTML = result[1];
+						};
+						photobtn.onclick = function () {
+							document.getElementById("display").innerHTML = result[2];
+						};
+					},
+					error: function (array) {
+						alert("Local error callback.");
+					}
+				})
+			}
+		</script>
+    </body>
+</html>
