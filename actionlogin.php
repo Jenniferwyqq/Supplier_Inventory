@@ -14,17 +14,23 @@ if ($username == '' || $password == '')
 }
 else
 {
-	$result = $mysqli->query("SELECT user_pass FROM employ WHERE employ.user_name = $username") or die($mysqli->error);
+	$result = $mysqli->query("SELECT * FROM employ WHERE employ.user_name = '$username'") or die($mysqli->error);
 	
     if(mysqli_num_rows($result) == 1){
 		$row = $result->fetch_assoc();
 		if($password == $row['user_pass']){
-			$_SESSION['message'] = "Welcome, Top Shoe!";
+			$id = $row['id'];
+			$user = $row['name'];
+			$_SESSION['message'] = "Welcome Top Shoe";
 			$_SESSION['msg_type'] = "success";
+			$_SESSION["UserID"]=$id;
+			$_SESSION["Username"]=$user;
 			header('Location: main.php');
 		} else {
 			$_SESSION['message'] = "Incorrect password, please try again!";
 			$_SESSION['msg_type'] = "danger";
+			$_SESSION["UserID"]="";
+			$_SESSION["Username"]="";
 			header('Location: index.php');
 		}
 	} else {
