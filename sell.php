@@ -1,105 +1,154 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Sell</title>
+        <title>Sale</title>
         <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
     </head>
     <body>
+	<style>
+		body  {
+		  background-image: url("./display_photo/bk.png");  
+		}
+	</style>
         <?php require_once 'sellprocess.php'; ?>
         
-        <div class="container">
         <?php
             $mysqli = new mysqli('localhost','root','123','top_shoe') or die(mysqli_error($mysqli));
 			$resultbrand = $mysqli->query("SELECT DISTINCT brand.id AS brandid, brand.name AS brand FROM `brand` WHERE 1;") or die($mysqli->error);
 
         ?>
-		</div>
-		<div class="container table-responsive">
-			<div class="row justify-content-center">
+		<div class="container">
+			<div class="row justify-content-center" style="padding:40px; font-size:20px">
 				<?php 
 					date_default_timezone_set('America/Los_Angeles');
 				?>
-				<label for="date">Sell Date</label>
+				<label style="background-color:#ffffff" for="date"><b>Sale Date:</b></label>
+				<div class = "space">   </div>   
 				<input type="date" id="date" name="date" value="<?php echo date("Y-m-d") ?>" min="2018-01-01" max="2030-12-31">
 
 			</div>
 			<div>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>BRAND</th>
-						<th>STYLE</th>
-						<th>COLOR</th>
-						<th>MATERIAL</th>
-						<th>BOX</th>
-						<th>QUANTITY</th>
-						<th></th>
-					</tr>
-				</thead>
-				<div class="row">
-					<tr>
-						<td>
-							<div>
-								<select id='brand'>
-									<option>-----</option>
-									<?php
-									while($data=mysqli_fetch_assoc($resultbrand)){
-									?>
-										  <option value="<?php echo $data['brandid'];?>"><?php echo $data['brand'];?></option>
-									<?php
-									}
-									?>
-								</select>
-							</div>
-						</td>
-						<td>
-							<div">
-								<select id='name'>
-									<option>-----</option>
-								</select>
-							</div>
-						</td>
-						<td>
-							<div>
-								<select id='color'>
-									<option>-----</option>
-								</select>
-							</div>
-						</td>
-						<td>
-							<div>
-								<select id='material'>
-									<option>-----</option>
-								</select>
-							</div>
-						</td>
-						<td>
-							<div>
-								<select id='box'>
-									<option>-----</option>
-								</select>
-							</div>
-						</td>
-						<td>
-							<input type="text" class="col-md-6" placeholder="Quantity" id="quantity">
-						</td>
-						<td align="left">
-							<input type="button" class="btn btn-secondary" value="ADD" onclick="getInputValue()"> 
-						</td>
-					</tr>
-				</div>
-			</table>
+			<div class="row justify-content-center">
+				<table id="table1" class="table">
+					<thead>
+						<tr>
+							<th>BRAND</th>
+							<th>STYLE</th>
+							<th>COLOR</th>
+							<th>MATERIAL</th>
+							<th>BOX</th>
+							<th>QUANTITY</th>
+							<th></th>
+						</tr>
+					</thead>
+					<div class="row">
+						<tr>
+							<td>
+								<div>
+									<select id='brand'>
+										<option>-----</option>
+										<?php
+										while($data=mysqli_fetch_assoc($resultbrand)){
+										?>
+											  <option value="<?php echo $data['brandid'];?>"><?php echo $data['brand'];?></option>
+										<?php
+										}
+										?>
+									</select>
+								</div>
+							</td>
+							<td>
+								<div>
+									<select id='name'>
+										<option>-----</option>
+									</select>
+								</div>
+							</td>
+							<td>
+								<div>
+									<select id='color'>
+										<option>-----</option>
+									</select>
+								</div>
+							</td>
+							<td>
+								<div>
+									<select id='material'>
+										<option>-----</option>
+									</select>
+								</div>
+							</td>
+							<td>
+								<div>
+									<select id='box'>
+										<option>-----</option>
+									</select>
+								</div>
+							</td>
+							<td>
+								<input type="text" class="col-md-6" placeholder="Quantity" id="quantity">
+							</td>
+							<td align="left">
+								<input type="button" class="btn btn-secondary" value="ADD" onclick="getInputValue()"> 
+							</td>
+						</tr>
+					</div>
+				</table>
 			</div>
 		</div>
+		
+		<div class="row justify-content-center" id="here">
+		</div>
 		<style>
+			.space {white-space:pre}
+			
+			#table1 th{
+				background-image: url('./display_photo/bk_btn2.jpg');
+				background-size: cover;
+				border: 1px solid #4D365B;
+				font-size:18px;
+				color: #ffffff;
+			}
+		
+			#table1 td{
+				background:#ffffff;
+				border: 1px solid #4D365B;
+				font-size:20px;
+			}
+			
+			#table2 th{
+				background-image: url('./display_photo/bk_btn3.jpg');
+				border: 1px solid #4D365B;
+				font-size:18px;
+				color: #ffffff;
+			}
+		
+			#table2 td{
+				background:#ffffff;
+				border: 1px solid #4D365B;
+				font-size:20px;
+			}
+			
 			.table-hover tbody tr:hover td {
 				background: #FEF878;
 			}
+			
+			h5{
+				padding-top: 30px;
+				background:#ffffff;
+			}
+			
+			#here{
+				table-layout:fixed;
+			}
+			
+			.table-hover tbody tr:hover td {
+				background-color: #FEF878;
+			}
+			
 		</style>
-		<div id="here">
-		</div>
 		
         <script>
 			$(document).on('change', '#brand', function(){
@@ -207,7 +256,7 @@
 						selldate:selldate
 					},
 					success:function(divStr){		
-						alert("insert success");
+						alert("INSERT SUCCESS!!");
 						document.getElementById("here").innerHTML = divStr;
 					},
 					error: function (divStr) {
