@@ -1,6 +1,7 @@
 <?php
 session_start();
 $mysqli = new mysqli('localhost', 'root', '123', 'top_shoe') or die(mysqli_error($mysqli));
+$user_id = $_SESSION['UserID'];
 	
 if (isset($_POST['brand'])){
 	$brand = $_POST['brand'];
@@ -66,7 +67,8 @@ if (isset($_POST['brand4'])){
 	$quantity = $_POST['quantity'];
 	$selldate = $_POST['selldate'];
 	$id = "test";
-	$divStr = "<div class=\"container table table-bordered table table-hover table table-condensed table-striped\"><table class=\"table\"><tr  class=\"info\"><th>brand</th><th>style</th><th>color</th><th>material</th><th>box</th><th>quantity</th><th>edit</th></tr>";
+	$divStr = "<h5>Sale History in " . $selldate . " </h5>
+		<table id=\"table2\" class=\"table table-bordered table-hover\" style=\"width:96%\"><tr class=\"info\"><th>brand</th><th>style</th><th>color</th><th>material</th><th>box</th><th>quantity</th><th>edit</th></tr>";
 	$oldquantity=0;
 
 	//find shoe_id	
@@ -82,7 +84,7 @@ if (isset($_POST['brand4'])){
 		$oldquantity = $selld['quantity'];
 	}
 	if ($id=="test"){
-		$insert_sell = $mysqli->query("INSERT INTO sell (date, box_id, shoe_id, quantity, employ_id) VALUES ('$selldate', '$box', '$shoe_id', '$quantity', '1');") or die($mysqli->error);	
+		$insert_sell = $mysqli->query("INSERT INTO sell (date, box_id, shoe_id, quantity, employ_id) VALUES ('$selldate', '$box', '$shoe_id', '$quantity', '$user_id');") or die($mysqli->error);	
 	} else {
 		$newquantity = $oldquantity + $quantity;
 		$update_sell = $mysqli->query("UPDATE sell SET quantity = $newquantity WHERE id = '$id';") or die($mysqli->error);
@@ -118,7 +120,7 @@ if (isset($_POST['brand4'])){
 		}
     }
 
-	$divStr = $divStr . "</table></div>";
+	$divStr = $divStr . "</table>";
 	echo $divStr;
 	
 }
@@ -154,7 +156,7 @@ if (isset($_POST['brand5'])){
 	
 	$update_selld = $mysqli->query("UPDATE sell SET quantity = '$quantity' WHERE sell.shoe_id = '$shoe_id1' AND sell.box_id = '$box_id1' AND sell.date = '$selldate';") or die($mysqli->error);
 	if($update_selld ==true){
-		$res = "update success";
+		$res = "UPDATE SUCCESS!!";
 	}
 	echo $res;
 }	
