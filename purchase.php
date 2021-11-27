@@ -7,22 +7,26 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
     </head>
     <body>
+	<style>
+		body  {
+		  background-image: url("./display_photo/bk.png");  
+		}
+	</style>
         <?php require_once 'purchaseprocess.php'; 
             $mysqli = new mysqli('localhost','root','123','top_shoe') or die(mysqli_error($mysqli));
 			$resultbrand = $mysqli->query("SELECT DISTINCT brand.id AS brandid, brand.name AS brand FROM `brand` WHERE 1;") or die($mysqli->error);
         ?>
-		</div>
 		<div class="container">
-			<div class="row justify-content-center">
+			<div class="row justify-content-center" style="padding:40px; font-size:20px">
 				<?php 
 					date_default_timezone_set('America/Los_Angeles');
 				?>
-				<label for="date">Purchase Date:</label>
+				<label style="background-color:#ffffff" for="date"><b>Purchase Date:</b></label>
 				<div class = "space">   </div>   
 				<input type="date" id="date" name="date" value="<?php echo date("Y-m-d") ?>" min="2018-01-01" max="2030-12-31">
 			</div>
 			<div class="row justify-content-center">
-				<table class="table">
+				<table id="table1" class="table">
 					<thead>
 						<tr>
 							<th>BRAND</th>
@@ -78,8 +82,8 @@
 								</div>
 							</td>
 							<td>
-								<input type="text" class="col-sm-4" placeholder="Quantity" id="quantity">
-								<input type="text" class="col-sm-4" placeholder="Price" id="price">
+								<input type="number" class="col-sm-4" placeholder="Quantity" id="quantity">
+								<input type="number" class="col-sm-4" placeholder="Price" id="price">
 								<input type="hidden" id="shoeID" name="shoeID" value="0">
 								<input type="button" class="btn btn-secondary" value="ADD" onclick="getInputValue()"> 
 							</td>
@@ -87,7 +91,7 @@
 					</div>
 				</table>
 			</div>
-			<div class="row" id="here">
+			<div class="row justify-content-center" id="here">
 				
 			</div>
 		</div>
@@ -95,13 +99,43 @@
 		<style>
 			.space {white-space:pre}
 			
-			th {background:#b8def5}
+			#table1 th{
+				background-image: url('./display_photo/bk_btn2.jpg');
+				background-size: cover;
+				border: 1px solid #4D365B;
+				font-size:18px;
+				color: #ffffff;
+			}
 		
-			.table-hover tbody tr:hover td {
-				background: #FEF878;
+			#table1 td{
+				background:#ffffff;
+				border: 1px solid #4D365B;
+				font-size:20px;
 			}
 			
-			.here{
+			#table2 th{
+				background-image: url('./display_photo/bk_btn3.jpg');
+				border: 1px solid #4D365B;
+				font-size:18px;
+				color: #ffffff;
+			}
+		
+			#table2 td{
+				background:#ffffff;
+				border: 1px solid #4D365B;
+				font-size:20px;
+			}
+			
+			.table2:hover {
+			  background-color: #3e8e41;
+			}
+			
+			h5{
+				padding-top: 30px;
+				background:#ffffff;
+			}
+			
+			#here{
 				table-layout:fixed;
 			}
 		</style>
@@ -110,7 +144,7 @@
 			$(document).on('change', '#brand', function(){
 				var brand = $('#brand :selected').val();
 				$.ajax({
-					url:"inventoryprocess.php",				
+					url:"purchaseprocess.php",				
 					method:"POST",
 					data:{
 						brand:brand
@@ -127,7 +161,7 @@
 				var brand = $('#brand :selected').val();
 				var name = $('#name :selected').val();
 				$.ajax({
-					url:"inventoryprocess.php",				
+					url:"purchaseprocess.php",				
 					method:"POST",
 					data:{
 						brand1:brand,
@@ -146,7 +180,7 @@
 				var name = $('#name :selected').val();
 				var color = $('#color :selected').val();
 				$.ajax({
-					url:"inventoryprocess.php",				
+					url:"purchaseprocess.php",				
 					method:"POST",
 					data:{
 						brand2:brand,
