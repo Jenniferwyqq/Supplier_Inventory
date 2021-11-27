@@ -1,15 +1,15 @@
 <?php
 session_start();
 $mysqli = new mysqli('localhost', 'root', '123', 'top_shoe') or die(mysqli_error($mysqli));
-	
+
 if (isset($_POST['brand'])){
 	$brand = $_POST['brand'];
 	$name = "";
 	$shoe_name = $mysqli->query("SELECT DISTINCT shoe.name AS name FROM shoe WHERE shoe.brand_id = '$brand';") or die($mysqli->error);
 	
-	while($data1=mysqli_fetch_assoc($shoe_name)){
+	while($data=mysqli_fetch_assoc($shoe_name)){
 	   $name .= "
-			<option value='{$data1["name"]}'>{$data1['name']}</option>
+			<option value='{$data["name"]}'>{$data['name']}</option>
 	   ";
 	};
 	echo $name;
@@ -19,11 +19,10 @@ if (isset($_POST['name'])){
 	$brand = $_POST['brand1'];
 	$name = $_POST['name'];
 	$color = "";
-	$shoe_color = $mysqli->query("SELECT DISTINCT shoe.color AS color FROM shoe WHERE shoe.name = '$name' AND shoe.brand_id = '$brand';") or die($mysqli->error);
-	
-	while($data2=mysqli_fetch_assoc($shoe_color)){
+	$shoe_color = $mysqli->query("SELECT DISTINCT shoe.color AS color FROM shoe WHERE shoe.name = '$name' AND shoe.brand_id = '$brand';") or die($mysqli->error);	
+	while($data1=mysqli_fetch_assoc($shoe_color)){
 	   $color .= "
-		  <option value='{$data2["color"]}'>{$data2['color']}</option>
+		  <option value='{$data1["color"]}'>{$data1['color']}</option>
 	   ";
 	};
 	echo $color;
@@ -35,140 +34,158 @@ if (isset($_POST['color'])){
 	$color = $_POST['color'];
 	$material = "";
 	$shoe_material = $mysqli->query("SELECT DISTINCT shoe.material AS material FROM shoe WHERE shoe.brand_id = '$brand' AND shoe.name = '$name' AND shoe.color = '$color';") or die($mysqli->error);
-	
-	while($data3=mysqli_fetch_assoc($shoe_material)){
+	while($data2=mysqli_fetch_assoc($shoe_material)){
 	   $material .= "
-		  <option value='{$data3["material"]}'>{$data3['material']}</option>
+		  <option value='{$data2["material"]}'>{$data2['material']}</option>
 	   ";
 	};
 	echo $material;
 }
 
-if (isset($_POST['material'])){
+if (isset($_POST['brand3'])){
 	$brand = $_POST['brand3'];
 	$name = $_POST['name2'];
 	$color = $_POST['color1'];
 	$material = $_POST['material'];
+	$divStr = "<h3 class=\"font-size:24px\">Inventory Summary</h3><table id=\"table2\" class=\"table table-hover table-bordered table-condensed table-striped\"><tr><th class=\"col-3\">box</th><th class=\"col-3\">quantity</th><th class=\"col-6\"></th></tr>";
 	$shoe_id = 0;
-	$shoe_box = $mysqli->query("SELECT DISTINCT box.id AS boxid, box.name AS box FROM box WHERE box.brand_id = '$brand';") or die($mysqli->error);
-
-	$box = "";
-	while($sbox=mysqli_fetch_assoc($shoe_box)){
-	   $box .= "
-		  <option value='{$sbox["boxid"]}'>{$sbox['box']}</option>
-	   ";
-	};
 	
-	//find shoe_id	
-	$shio_id = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.color = '$color' AND shoe.material = '$material' AND shoe.brand_id = '$brand';") or die($mysqli->error);
-	while($sid=mysqli_fetch_assoc($shio_id)){
-		$shoe_id=$sid['sid'];
-	}
-
-	echo json_encode(array($box, $shoe_id));
-
-}
-
-if (isset($_POST['brand4'])){
-	$shoe_id = $_POST['shoe_id'];
-	$brand = $_POST['brand4'];
-	$name = $_POST['name3'];
-	$color = $_POST['color2'];
-	$material = $_POST['material1'];
-	$box = $_POST['box'];
-	$quantity = $_POST['quantity'];
-	$price = $_POST['price'];
-	$purchasedate = $_POST['purchasedate'];
-	$id = "test";
-	$divStr = "<p>Purchase History in " . $purchasedate . " </p>
-		<table class=\"table table-bordered table-hover\">
-			<tr class=\"info\">
-				<th>brand</th>
-				<th>style</th>
-				<th>color</th>
-				<th>material</th>
-				<th>box</th>
-				<th>quantity</th>
-				<th>price</th>
-				<th></th>
-			</tr>";
-	$oldquantity=0;
-
-	//find if row already exist in purchase, update the quantity
-	$check_purchase = $mysqli->query("SELECT * FROM purchase WHERE purchase.date = '$purchasedate' AND purchase.box_id = '$box' AND purchase.shoe_id = '$shoe_id' AND unit_price = '$price';") or die($mysqli->error);
-	while($purchased=mysqli_fetch_assoc($check_purchase)){
-		$id = $purchased['id'];
-		$oldquantity = $purchased['quantity'];
-	}
-	if ($id=="test"){
-		$insert_purchase = $mysqli->query("INSERT INTO purchase (date, box_id, shoe_id, quantity, unit_price, employ_id) VALUES ('$purchasedate', '$box', '$shoe_id', '$quantity', '$price', '1');") or die($mysqli->error);	
-	} else {
-		$newquantity = $oldquantity + $quantity;
-		$update_purchase = $mysqli->query("UPDATE purchase SET quantity = $newquantity WHERE id = '$id';") or die($mysqli->error);
+	//find shoe id
+	$shoeid = $mysqli->query("SELECT DISTINCT shoe.id AS sid FROM shoe WHERE shoe.name = '$name' AND shoe.color = '$color' AND shoe.material = '$material' AND shoe.brand_id = '$brand';") or die($mysqli->error);
+	while($data3=mysqli_fetch_assoc($shoeid)){
+		$shoe_id=$data3['sid'];
 	}
 	
-	//display the list which is updated today;
-	$hpurchase = $mysqli->query("SELECT * FROM purchase WHERE purchase.date = '$purchasedate' ORDER BY shoe_id ASC, box_id ASC, unit_price ASC;") or die($mysqli->error);
-	while($p_history=mysqli_fetch_assoc($hpurchase)){
-		//find quantity and price
-		$hisid = $p_history['id'];
-		$hisquantity = $p_history['quantity'];
-		$hisprice = $p_history['unit_price'];
-		$hisshoe_id = $p_history['shoe_id'];
-		$hisbox_id = $p_history['box_id'];
-		//find shoe detail
-		$shoedetail = $mysqli->query("SELECT * FROM shoe WHERE shoe.id = '$hisshoe_id';") or die($mysqli->error);
-		while($shoed=mysqli_fetch_assoc($shoedetail)){
-			$his_name=$shoed['name'];
-			$his_color=$shoed['color'];
-			$his_material=$shoed['material'];
-			//find brand
-			$boxnbrand = $mysqli->query("SELECT * FROM box WHERE box.id = '$hisbox_id';") or die($mysqli->error);
-			while($reboxnbrand=mysqli_fetch_assoc($boxnbrand)){
-				$hisbox_name = $reboxnbrand['name'];
-				$brand_id = $reboxnbrand['brand_id'];
-				
-				$brandname = $mysqli->query("SELECT * FROM brand WHERE brand.id = '$brand_id';") or die($mysqli->error);
-				while($resbrand=mysqli_fetch_assoc($brandname)){
-					$hisbrand_name = $resbrand['name'];
-					$editbtn = "<button class=\"saveChanges\" id=\"$hisid\" onclick=\"editclick(this.id\")\">UPDATE</button>";
-					$divStr = $divStr . "<tr><td>" . $hisbrand_name . "</td><td>" .  $his_name . "</td><td>" . $his_color . "</td><td>" . $his_material . "</td><td>" . $hisbox_name . "</td><td contenteditable=\"true\">" . $hisquantity . "</td><td contenteditable=\"true\">" . $hisprice . "</td><td>" .  $editbtn . "</td></tr>";
+	//find the quantity: purchase - sell + revise of each box
+	$box = $mysqli->query("SELECT * FROM box WHERE box.brand_id = '$brand';") or die($mysqli->error);
+	while ($boxes = $box->fetch_assoc()){ 
+		$box_id = $boxes['id'];
+		//find quantity of purchase
+		$pquantity = $mysqli->query("SELECT SUM(quantity) AS psum FROM purchase WHERE purchase.shoe_id = '$shoe_id' AND purchase.box_id = '$box_id';") or die($mysqli->error);
+		while($pq=mysqli_fetch_assoc($pquantity)){
+			//find quantity of sell
+			$squantity = $mysqli->query("SELECT SUM(quantity) AS ssum FROM sell WHERE sell.shoe_id = '$shoe_id' AND sell.box_id = '$box_id';") or die($mysqli->error);
+			while($sq=mysqli_fetch_assoc($squantity)){
+				//find quantity of revise
+				$rquantity = $mysqli->query("SELECT SUM(quantity) AS rsum FROM inventory_revise WHERE inventory_revise.shoe_id = '$shoe_id' AND inventory_revise.box_id = '$box_id';") or die($mysqli->error);
+				while($rq=mysqli_fetch_assoc($rquantity)){
+					$psum=$pq['psum'];
+					$ssum=$sq['ssum'];
+					$rsum=$rq['rsum'];
+					$sum = $psum - $ssum + $rsum;
+					$editbtn = "<button class=\"saveChanges\" id=\"$box_id\" onclick=\"editclick(this.id)\">UPDATE</button>";
+					$detailbtn = "<input type=\"button\" value=\"VIEW\" class=\"btn btn-info\" id=\"$box_id\" onclick=\"detailclick(this.id)\">";
+					if ($sum  == 0) {
+						$divStr = $divStr . "<tr><td>" . $boxes['name'] . "</td><td contenteditable=\"true\">" .  '0' . "</td><td>" .  $editbtn . $detailbtn . "</td></tr>";
+					} else {
+						$divStr = $divStr . "<tr><td>" . $boxes['name'] . "</td><td contenteditable=\"true\">" .  $sum . "</td><td>" .  $editbtn . $detailbtn . "</td></tr>";
+					}
 				}
 			}
 		}
-    }
+	}
 	$divStr = $divStr . "</table>";
-	echo $divStr;
+	echo json_encode(array($divStr, $shoe_id));
+}
+
+//update the revise
+if (isset($_POST['brand4'])){
+	$shoe_id = $_POST['shoe_id'];
+	$brand = $_POST['brand4'];
+	$box_name = $_POST['box'];
+	$content = $_POST['content'];
+	$box_id = 0;
+	$sum1 = 0;
+	$res = "quantity doesn't change!!!";
+	
+	//find box id
+	$boxid = $mysqli->query("SELECT DISTINCT box.id AS bid FROM box WHERE box.name = '$box_name' AND box.brand_id = '$brand';") or die($mysqli->error);
+	while($bid1=mysqli_fetch_assoc($boxid)){
+		$box_id=$bid1['bid'];
+	}
+	
+	//find quantity of box
+	$pquantity1 = $mysqli->query("SELECT SUM(quantity) AS psum FROM purchase WHERE purchase.shoe_id = '$shoe_id' AND purchase.box_id = '$box_id';") or die($mysqli->error);
+	while($pq1=mysqli_fetch_assoc($pquantity1)){
+		//find quantity of sell
+		$squantity1 = $mysqli->query("SELECT SUM(quantity) AS ssum FROM sell WHERE sell.shoe_id = '$shoe_id' AND sell.box_id = '$box_id';") or die($mysqli->error);
+		while($sq1=mysqli_fetch_assoc($squantity1)){
+			//find quantity of revise
+			$rquantity1 = $mysqli->query("SELECT SUM(quantity) AS rsum FROM inventory_revise WHERE inventory_revise.shoe_id = '$shoe_id' AND inventory_revise.box_id = '$box_id';") or die($mysqli->error);
+			while($rq1=mysqli_fetch_assoc($rquantity1)){
+				$psum1=$pq1['psum'];
+				$ssum1=$sq1['ssum'];
+				$rsum1=$rq1['rsum'];
+				$sum1 = $psum1 - $ssum1 + $rsum1;
+			}
+		}
+	}
+	
+	//get the quantity changed
+	
+	$fquantity = $content - $sum1;
+	if($fquantity != 0){
+		//insert data to rev, employee set 1
+		$resultnr = $mysqli->query("INSERT INTO inventory_revise (date, box_id, shoe_id, quantity, employ_id) VALUES (now(), '$box_id', '$shoe_id', '$fquantity', '1');") or die($mysqli->error);
+					$res = "QUANTITY UPDATE SUCCESS!!";
+	}
+	echo $res;
 }
 
 if (isset($_POST['brand5'])){
-	$shoe_id1 = $_POST['shoe_id1'];
+	$shoe_id = $_POST['shoe_id1'];
 	$brand = $_POST['brand5'];
 	$box = $_POST['box1'];
-	$quantity = $_POST['quantity1'];
-	$price = $_POST['price1'];
-	$purchasedate = $_POST['purchasedate1'];
-	$box_id1 = '';
-	$brand_id1 = '';
-	$res = "FAIL";
+	$boxname = "";
+	//find box name
+	$boxn = $mysqli->query("SELECT DISTINCT box.name AS bn FROM box WHERE box.id = '$box' AND box.brand_id = '$brand';") or die($mysqli->error);
+	while($datan=mysqli_fetch_assoc($boxn)){
+		$boxname=$datan['bn'];
+	}
+	
+	////////////////PURCHASE///////////////////
+	//find quantity of purchase
+	$text1 = "Purchase Inventory Detail";
+	$divStr = "<table id=\"table3\" class=\"table table-hover1 table-bordered  table-condensed  table-striped\"><tr><th>box</th><th>active</th><th>date</th><th>quantity</th></tr>";
+	$pquantity2 = $mysqli->query("SELECT * FROM purchase WHERE purchase.shoe_id = '$shoe_id' AND purchase.box_id = '$box';") or die($mysqli->error);
+	while($pq2=mysqli_fetch_assoc($pquantity2)){
+		//find date
+		$purdate = $pq2['date'];
+		$divStr = $divStr . "<tr><td>" . $boxname . "</td><td>" . 'purchase' . "</td><td>" .  $purdate . "</td><td>" .  $pq2['quantity'] . "</td></tr>";
+	}	
+	$divStr = $divStr . "</table>";
+	
+	////////////////SELL///////////////////
+	$text2 = "Sale Inventory Detail";
+	$divStr1 = "<table id=\"table4\" class=\"table table-hover1 table-bordered  table-condensed  table-striped\"><tr><th>box</th><th>active</th><th>date</th><th>quantity</th></tr>";
+	//find quantity of sell
+	$squantity2 = $mysqli->query("SELECT * FROM sell WHERE sell.shoe_id = '$shoe_id' AND sell.box_id = '$box';") or die($mysqli->error);
+	while($sq2=mysqli_fetch_assoc($squantity2)){
+		//find date
+		$selldate = $sq2['date'];
+		$divStr1 = $divStr1 . "<tr><td>" . $boxname . "</td><td>" . 'sale' . "</td><td>" .  $selldate . "</td><td>" .  $sq2['quantity'] . "</td></tr>";
+	}	
+	$divStr1 = $divStr1 . "</table>";
+	
+	////////////////REVISE///////////////////
+	$text3 = "Revise Inventory Detail";
+	$divStr2 = "<table id=\"table5\" class=\"table table-hover1 table-bordered  table-condensed  table-striped\"><tr><th>box</th><th>active</th><th>date</th><th>quantity</th></tr>";
+	//find revise of sell
+	$rquantity2 = $mysqli->query("SELECT * FROM inventory_revise WHERE inventory_revise.shoe_id = '$shoe_id' AND inventory_revise.box_id = '$box';") or die($mysqli->error);
+	while($rq2=mysqli_fetch_assoc($rquantity2)){
+		//find date
+		$revdate = $rq2['date'];
+		$divStr2 = $divStr2 . "<tr><td>" . $boxname . "</td><td>" . 'revise' . "</td><td>" .  $revdate . "</td><td>" .  $rq2['quantity'] . "</td></tr>";
+	}	
+	$divStr2 = $divStr2 . "</table>";
 
-	//find brand_id	
-	$brandid = $mysqli->query("SELECT DISTINCT brand.id AS brid FROM brand WHERE brand.name = '$brand';") or die($mysqli->error);
-	while($br_id=mysqli_fetch_assoc($brandid)){
-		$brand_id1=$br_id['brid'];
-	}
-	
-	//find box_id	
-	$boxid = $mysqli->query("SELECT DISTINCT box.id AS bid FROM box WHERE box.name = '$box' AND box.brand_id = '$brand_id1';") or die($mysqli->error);
-	while($b_id=mysqli_fetch_assoc($boxid)){
-		$box_id1=$b_id['bid'];
-	}
-	
-	$update_purchased = $mysqli->query("UPDATE purchase SET quantity = '$quantity', unit_price = '$price' WHERE purchase.shoe_id = '$shoe_id1' AND purchase.box_id = '$box_id1' AND purchase.date = '$purchasedate';") or die($mysqli->error);
-	if($update_purchased == true){
-		$res = "UPDATE SUCCESS!!";
-	}
-	echo $res;
-}	
+	////////////////Detail section///////////////////
+	$divStr3 = "
+	<button class=\"btn btn-info\" id=\"purchase\">Purchase</button>
+	<button class=\"btn btn-info\" id=\"sell\">Sell</button>
+	<button class=\"btn btn-info\"  id=\"revise\">Revise</button>
+	</div>";
+
+	echo json_encode(array($divStr, $divStr1, $divStr2, $divStr3, $text1, $text2, $text3));
+}
 ?>
-
