@@ -12,6 +12,11 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     </head>
     <body>
+		<style>
+			body  {
+			  background-image: url("./display_photo/bk.png");  
+			}
+		</style>
         <?php 
 			require_once 'inventoryprocess.php'; 
 			$mysqli = new mysqli('localhost','root','123','top_shoe') or die(mysqli_error($mysqli));
@@ -19,10 +24,10 @@
 		?>
 		<div class="container">
 			<div class="row row justify-content-center">
-				<h3> Inventory </h3>
+				<h3 style="padding:20px; font-size:24px"><b> Inventory </b></h3>
 			</div>
-			<div class="row">
-				<table id="main" class="table table-bordered">
+			<div style="padding-top:10px" class="row justify-content-center">
+				<table id="table1" class="table">
 					<thead>
 						<tr>
 							<th>BRAND</th>
@@ -75,14 +80,19 @@
 					</tr>
 				</table>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-5">
 					<div id="here"></div>
 				</div>
 				<div class="col-7">
 					<div class="row">
-						<div id ="view"></div>
+						<div class="col-7">
+							<h3 class="font-size:24px" id ="itext"></h3>
+						</div>
+						<div id="viewbtn" class="col-5">
+							<div id="view"></div>
+						</div>
 					</div>
 					<div class="row">
 						<div id="display"></div>
@@ -92,23 +102,92 @@
 		</div>
 		
 		<style>
-			th {background:#b8def5}
-			
-			.table-hover tbody tr:hover td {
-				background: #C8BFE7;
+			#table1 th{
+				background-image: url('./display_photo/bk_btn2.jpg');
+				background-size: cover;
+				border: 1px solid #4D365B;
+				font-size:18px;
+				color: #ffffff;
 			}
 		
-			.table-hover1 tbody tr:hover td {
-				background: #FEF878;
+			#table1 td{
+				background:#ffffff;
+				border: 1px solid #4D365B;
+				font-size:20px;
+			}
+			
+			#table2 th{
+				background-image: url('./display_photo/bk_btn3.jpg');
+				border: 1px solid #4D365B;
+				font-size:18px;
+				color: #ffffff;
+			}
+		
+			#table2 td{
+				background:#ffffff;
+				border: 1px solid #4D365B;
+				font-size:20px;
+			}
+			
+			#table3 th{
+				background-image: url('./display_photo/bk_btn4.jpg');
+				border: 1px solid #4D365B;
+				font-size:18px;
+				color: #ffffff;
+			}
+		
+			#table3 td{
+				background:#ffffff;
+				border: 1px solid #4D365B;
+				font-size:20px;
+			}
+			
+				
+			#table4 th{
+				background-image: url('./display_photo/bk_btn4.jpg');
+				border: 1px solid #4D365B;
+				font-size:18px;
+				color: #ffffff;
+			}
+		
+			#table4 td{
+				background:#ffffff;
+				border: 1px solid #4D365B;
+				font-size:20px;
+			}
+			
+				
+			#table5 th{
+				background-image: url('./display_photo/bk_btn4.jpg');
+				border: 1px solid #4D365B;
+				font-size:18px;
+				color: #ffffff;
+			}
+		
+			#table5 td{
+				background:#ffffff;
+				border: 1px solid #4D365B;
+				font-size:20px;
 			}
 			
 			.table{
 				table-layout:fixed;
 			}
+			
+			#viewbtn{
+				display:flex; 
+				align-items:flex-end;
+				
+			}
 						
 			/* Add a background color on hover */
 			.view:hover {
 			  background-color: #3e8e41;
+			}
+			
+			/* Add a background color on hover */
+			.btn-group button:hover {
+				background-color: #5f89b9;
 			}
 		</style>
 
@@ -236,17 +315,21 @@
 					success:function(array){		
 						var result = $.parseJSON(array);
 						document.getElementById("view").innerHTML = result[3];
+						itext.innerText = result[4];
 						document.getElementById("display").innerHTML = result[0];
 						const shoebtn = document.getElementById("purchase");
 						const boxbtn = document.getElementById("sell");
 						const photobtn = document.getElementById("revise");
 						shoebtn.onclick = function () {
+							itext.innerText = result[4];
 						 	document.getElementById("display").innerHTML = result[0];
 						};
 						boxbtn.onclick = function () {
+							itext.innerText = result[5];
 							document.getElementById("display").innerHTML = result[1];
 						};
 						photobtn.onclick = function () {
+							itext.innerText = result[6];
 							document.getElementById("display").innerHTML = result[2];
 						};
 					},
