@@ -47,7 +47,7 @@ if (isset($_POST['brand3'])){
 	$name = $_POST['name2'];
 	$color = $_POST['color1'];
 	$material = $_POST['material'];
-	$divStr = "<table class=\"table table-hover table-bordered table-condensed table-striped\"><tr><th class=\"col-3\">box</th><th class=\"col-3\">quantity</th><th class=\"col-6\"></th></tr>";
+	$divStr = "<h3 class=\"font-size:24px\">Inventory Summary</h3><table id=\"table2\" class=\"table table-hover table-bordered table-condensed table-striped\"><tr><th class=\"col-3\">box</th><th class=\"col-3\">quantity</th><th class=\"col-6\"></th></tr>";
 	$shoe_id = 0;
 	
 	//find shoe id
@@ -145,7 +145,8 @@ if (isset($_POST['brand5'])){
 	
 	////////////////PURCHASE///////////////////
 	//find quantity of purchase
-	$divStr = "<table class=\"table table-hover1 table-bordered  table-condensed  table-striped\"><tr><th>box</th><th>active</th><th>date</th><th>quantity</th></tr>";
+	$text1 = "Purchase Inventory Detail";
+	$divStr = "<table id=\"table3\" class=\"table table-hover1 table-bordered  table-condensed  table-striped\"><tr><th>box</th><th>active</th><th>date</th><th>quantity</th></tr>";
 	$pquantity2 = $mysqli->query("SELECT * FROM purchase WHERE purchase.shoe_id = '$shoe_id' AND purchase.box_id = '$box';") or die($mysqli->error);
 	while($pq2=mysqli_fetch_assoc($pquantity2)){
 		//find date
@@ -155,18 +156,20 @@ if (isset($_POST['brand5'])){
 	$divStr = $divStr . "</table>";
 	
 	////////////////SELL///////////////////
-	$divStr1 = "<table class=\"table table-hover1 table-bordered  table-condensed  table-striped\"><tr><th>box</th><th>active</th><th>date</th><th>quantity</th></tr>";
+	$text2 = "Sale Inventory Detail";
+	$divStr1 = "<table id=\"table4\" class=\"table table-hover1 table-bordered  table-condensed  table-striped\"><tr><th>box</th><th>active</th><th>date</th><th>quantity</th></tr>";
 	//find quantity of sell
 	$squantity2 = $mysqli->query("SELECT * FROM sell WHERE sell.shoe_id = '$shoe_id' AND sell.box_id = '$box';") or die($mysqli->error);
 	while($sq2=mysqli_fetch_assoc($squantity2)){
 		//find date
 		$selldate = $sq2['date'];
-		$divStr1 = $divStr1 . "<tr><td>" . $boxname . "</td><td>" . 'sell' . "</td><td>" .  $selldate . "</td><td>" .  $sq2['quantity'] . "</td></tr>";
+		$divStr1 = $divStr1 . "<tr><td>" . $boxname . "</td><td>" . 'sale' . "</td><td>" .  $selldate . "</td><td>" .  $sq2['quantity'] . "</td></tr>";
 	}	
 	$divStr1 = $divStr1 . "</table>";
 	
 	////////////////REVISE///////////////////
-	$divStr2 = "<table class=\"table table-hover1 table-bordered  table-condensed  table-striped\"><tr><th>box</th><th>active</th><th>date</th><th>quantity</th></tr>";
+	$text3 = "Revise Inventory Detail";
+	$divStr2 = "<table id=\"table5\" class=\"table table-hover1 table-bordered  table-condensed  table-striped\"><tr><th>box</th><th>active</th><th>date</th><th>quantity</th></tr>";
 	//find revise of sell
 	$rquantity2 = $mysqli->query("SELECT * FROM inventory_revise WHERE inventory_revise.shoe_id = '$shoe_id' AND inventory_revise.box_id = '$box';") or die($mysqli->error);
 	while($rq2=mysqli_fetch_assoc($rquantity2)){
@@ -183,6 +186,6 @@ if (isset($_POST['brand5'])){
 	<button class=\"btn btn-info\"  id=\"revise\">Revise</button>
 	</div>";
 
-	echo json_encode(array($divStr, $divStr1, $divStr2, $divStr3));
+	echo json_encode(array($divStr, $divStr1, $divStr2, $divStr3, $text1, $text2, $text3));
 }
 ?>
