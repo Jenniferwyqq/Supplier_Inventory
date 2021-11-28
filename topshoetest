@@ -1889,3 +1889,12 @@ VALUES ('1', 'K');
 
 INSERT INTO section (floor, section)
 VALUES ('1', 'L');
+
+INSERT INTO shoe_section (sec_id, box_id, shoe_id, quantity)
+VALUES ('1', '2', '1', 20);
+INSERT INTO shoe_section (sec_id, box_id, shoe_id, quantity)
+VALUES ('4', '5', '40', 10);
+INSERT INTO shoe_section (sec_id, box_id, shoe_id, quantity)
+VALUES ('3', '4', '35', 9);
+INSERT INTO shoe_section (sec_id, box_id, shoe_id, quantity)
+VALUES ('20', '5', '18', 18);
