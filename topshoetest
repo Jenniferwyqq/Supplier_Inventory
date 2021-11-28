@@ -1853,3 +1853,39 @@ VALUES(4, 'A');
 --shoe_section
 INSERT INTO shoe_section(sec_id, box_id, shoe_id, quantity)
 VALUES(1, 14, 3, 20);
+
+INSERT INTO section (floor, section)
+VALUES ('1', 'A');
+
+INSERT INTO section (floor, section)
+VALUES ('1', 'B');
+
+INSERT INTO section (floor, section)
+VALUES ('1', 'C');
+
+INSERT INTO section (floor, section)
+VALUES ('1', 'D');
+
+INSERT INTO section (floor, section)
+VALUES ('1', 'E');
+
+INSERT INTO section (floor, section)
+VALUES ('1', 'F');
+
+INSERT INTO section (floor, section)
+VALUES ('1', 'G');
+
+INSERT INTO section (floor, section)
+VALUES ('1', 'H');
+
+INSERT INTO section (floor, section)
+VALUES ('1', 'I');
+
+INSERT INTO section (floor, section)
+VALUES ('1', 'J');
+
+INSERT INTO section (floor, section)
+VALUES ('1', 'K');
+
+INSERT INTO section (floor, section)
+VALUES ('1', 'L');
